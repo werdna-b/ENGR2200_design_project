@@ -1,2 +1,10 @@
+*.log
+*.jou
+*.xpr
+*.hw
+*.runs
+*.cache
+*.data
+*.ip_user_files
 final_project/*
 !final_project/final_project.srcs/*
