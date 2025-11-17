@@ -8,3 +8,4 @@
 *.ip_user_files
 final_project/*
 !final_project/final_project.srcs/*
+!*.v
