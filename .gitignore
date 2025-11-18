@@ -7,5 +7,5 @@
 *.data
 *.ip_user_files
 final_project/*
-!final_project/final_project.srcs/*
+!final_project/final_project.srcs/**
 !*.v
