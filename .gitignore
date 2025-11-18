@@ -14,7 +14,8 @@
 
 !*.v
 
-final_project/*
+
+*.xpr
 *.log
 *.jou
 *.xpr
@@ -23,3 +24,4 @@ final_project/*
 *.cache
 *.data
 *.ip_user_files
+*.str
