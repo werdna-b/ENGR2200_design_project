@@ -14,7 +14,7 @@
 
 !*.v
 
-
+final_project/final_project.sim/**
 *.xpr
 *.log
 *.jou
