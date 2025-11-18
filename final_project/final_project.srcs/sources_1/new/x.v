@@ -8,16 +8,16 @@
 
 module x(
     input rst, clk, row_en, col_en, add_n, fire,
-    input [COUNT_WIRES-1:0] load,
-    output to_vdc
+    input [`COUNT_WIRES-1:0] load,
+    output reg [`VDC_VECTORNUM-1:0] to_vdc
     );
 
     wire add_en;
     assign add_en = fire & (row_en | col_en);
 
-    reg [COUNT_WIRES-1:0] count;
+    reg [`COUNT_WIRES-1:0] count;
 
-    always @(posedge clk) begin
+    always @(posedge fire, posedge rst) begin
         if (rst) count <= load;
         if (add_en) begin
             if (~add_n) count <= count + 1;
@@ -34,5 +34,6 @@ module x(
             default: to_vdc = 4'bx;
         endcase
     end
+
 
 endmodule
