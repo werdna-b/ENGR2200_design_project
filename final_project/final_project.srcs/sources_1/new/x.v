@@ -11,15 +11,20 @@ module x(
     input [`COUNT_WIRES-1:0] load,
     output reg [`VDC_VECTORNUM-1:0] to_vdc
     );
+    
+    reg [`COUNT_WIRES-1:0] count;
+    reg fire_ff;
 
     wire add_en;
-    assign add_en = fire & (row_en | col_en);
+    assign add_en = ~fire_ff & fire & (row_en | col_en);
 
-    reg [`COUNT_WIRES-1:0] count;
+    always @(posedge clk) begin
+        fire_ff <= fire;
+    end
 
-    always @(posedge fire, posedge rst) begin
+    always @(posedge clk) begin
         if (rst) count <= load;
-        if (add_en) begin
+        else if (add_en) begin
             if (~add_n) count <= count + 1;
             else count <= count - 1;
         end
