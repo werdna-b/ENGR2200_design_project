@@ -8,6 +8,7 @@
 
 module x(
     input rst, clk, row_en, col_en, add_n, fire,
+    input [COUNT_WIRES-1:0] load,
     output to_vdc
     );
 
@@ -17,7 +18,7 @@ module x(
     reg [COUNT_WIRES-1:0] count;
 
     always @(posedge clk) begin
-        if (rst) count <= 0;
+        if (rst) count <= load;
         if (add_en) begin
             if (~add_n) count <= count + 1;
             else count <= count - 1;
