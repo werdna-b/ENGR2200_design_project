@@ -1,12 +1,4 @@
-*.log
-*.jou
-*.xpr
-*.hw
-*.runs
-*.cache
-*.data
-*.ip_user_files
-final_project/*
+
 !final_project/final_project.srcs/*
 
 !final_project/final_project.srcs/sources_1/*
@@ -21,3 +13,13 @@ final_project/*
 !final_project/final_project.srcs/constrs_1/imports/digilent-xdc-master/*
 
 !*.v
+
+final_project/*
+*.log
+*.jou
+*.xpr
+*.hw
+*.runs
+*.cache
+*.data
+*.ip_user_files
