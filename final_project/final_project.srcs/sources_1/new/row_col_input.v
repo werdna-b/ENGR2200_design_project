@@ -1,6 +1,5 @@
 `timescale 1ns / 1ps
 
-
 module row_col_input(
     input [3:0] sw,
     output [3:0] out,
