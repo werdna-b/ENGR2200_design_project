@@ -40,5 +40,7 @@ module x(
         endcase
     end
 
+    //assign to_vdc = count
+
 
 endmodule
