@@ -30,7 +30,7 @@ module x(
         end
     end
 
-    always @(*) begin
+    /*always @(*) begin
         case (count)
             2'b00: to_vdc = 4'b0001;
             2'b01: to_vdc = 4'b0010;
@@ -38,7 +38,9 @@ module x(
             2'b11: to_vdc = 4'b1000;
             default: to_vdc = 4'bx;
         endcase
-    end
+    end*/
+
+    assign to_vdc = count;
 
     //assign to_vdc = count
 
