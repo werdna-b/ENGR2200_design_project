@@ -2,7 +2,7 @@
 
 module display(
     input [9:0] x, y,
-    input [47:0] row1, row2, row3, row4,
+    input [47:0] x1, x2, x3, x4,
    // input [15:0] switches, //For testing
     input clk, videoOn,
     output reg [11:0] rgb
