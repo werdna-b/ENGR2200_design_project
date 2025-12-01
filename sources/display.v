@@ -2,16 +2,16 @@
 
 module display(
     input [9:0] x, y,
-    //  input [47:0] x1, x2, x3, x4,
-    input [15:0] switches,
+    input [47:0] row1, row2, row3, row4,
+   // input [15:0] switches, //For testing
     input clk, videoOn,
     output reg [11:0] rgb
 );
     wire red, green, blue;
 
 
-
-
+    
+    
     localparam xMax = 640;
     localparam yMax = 480;
 
@@ -23,10 +23,10 @@ module display(
     localparam borderColor = 12'h94F;
     localparam gapColor = 12'hFA0;
 
-    localparam x1 = 48'hFF8FF0F8FF08;
-    localparam x2 = 48'h08F89F7FEC6E;
-    localparam x3 = 48'hF000FF00FF0F;
-    localparam x4 = 48'hF0F0F0F0F0FF;
+  //  localparam x1 = 48'hFF8FF0F8FF08;
+  //  localparam x2 = 48'h08F89F7FEC6E;
+  //  localparam x3 = 48'hF000FF00FF0F;
+  //  localparam x4 = 48'hF0F0F0F0F0FF;
 
 
     always @(posedge clk) begin

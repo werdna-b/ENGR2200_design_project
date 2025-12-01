@@ -15,8 +15,8 @@ module generic_debounce (
     output reg named_out
 );
 
-    parameter count = 3000000 // half a second at 6MHz
-    parameter count_wires = 22 // = ceiling(log2(count))
+    parameter count = 3000000; // half a second at 6MHz
+    parameter count_wires = 22; // = ceiling(log2(count))
     parameter equal = 1'b0, changed = 1'b1;
     reg state;
     reg [count_wires-1:0] counter;
