@@ -23,7 +23,7 @@ module tb_generic_input();
         #5
 
         in = 1;
-        #5
+        #21
 
         in = 0;
 
