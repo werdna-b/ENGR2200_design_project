@@ -2,7 +2,7 @@
 
 module color_decoder(
     input [7:0] colorVec,
-    output [47:0] fullColor
+    output reg [47:0] fullColor
 );
 
     parameter color1 = 12'hF00; //Red 

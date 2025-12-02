@@ -2,8 +2,8 @@
 
 module row_col_input(
     input [3:0] sw,
-    output [3:0] out,
-    output error
+    output reg [3:0] out,
+    output reg error
     );
 
     always @(*) begin
