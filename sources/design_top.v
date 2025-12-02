@@ -10,6 +10,8 @@ module design_top(
     // TODO: wire up the switches to debounce and input (edge-detect)
 
     wire error;
+    
+    
 
     //Used by Video circuit
     wire [9:0] x, y;
@@ -17,7 +19,8 @@ module design_top(
     wire [47:0] row1, row2, row3, row4;
 
     //For row/column select
-    reg [3:0] row, column, row_column;
+    reg [3:0] row, col;
+    wire row_column;
 
     //Error checking to make sure only one flip is switched
     row_col_input R1 ( .sw(row_column_raw), .error(error), .out(row_column));
@@ -28,13 +31,13 @@ module design_top(
             if (!nRow_debounced)
                 row = row_column;
             else
-                column = row_column;
+                col = row_column;
         end
     end
 
     //X module wires
     wire [31:0] display_state;
-    wire fire_debounced, addn_debounced;
+    wire fire_debounced, addn_debounced, nRow_debounced;
 
     //First row of cells
     x X1 ( .rst(reset), .clk(clk), .row_en(row[0]), .col_en(col[0]), .add_n(addn_debounced), .fire(fire_debounced), .load(2'b00), .to_vdc(display_state[1:0]) );
@@ -73,6 +76,6 @@ module design_top(
     vga_sync S1 (.reset(reset), .clk(clk), .x(x), .y(y), .video_on(videoOn), .hsync(hsync), .vsync(vsync));
 
     //display unit that prints the squares
-    display U1 (.clk(clk), .x(x), .y(y), .video_on(videoOn), .x1(row1), .x2(row2), .x3(row3), .x4(row4), .rgb(rgb));
+    display U1 (.clk(clk), .x(x), .y(y), .videoOn(videoOn), .x1(row1), .x2(row2), .x3(row3), .x4(row4), .rgb(rgb));
 
 endmodule
