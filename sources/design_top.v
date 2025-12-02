@@ -8,10 +8,15 @@ module design_top(
 
     // TODO: wire up the switches to debounce and input (edge-detect)
     
+    //Used by Video circuit
     wire [9:0] x, y;
     wire videoOn;
     wire [47:0] row1, row2, row3, row4;
     
+    //For row/column select
+    wire [3:0] row, column;
+    
+    row_col_input T1 (
     
 
     reg [31:0] display_state;
