@@ -2,7 +2,6 @@
 
 module color_decoder(
     input [7:0] colorVec,
-    input clk,
     output [47:0] fullColor
 );
 

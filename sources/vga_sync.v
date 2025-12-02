@@ -8,7 +8,7 @@ module vga_sync
 		//output  [11:0] rgb
 	);
 	
-	reg [3:0] red, green, blue;
+	
 	
 	// constant declarations for VGA sync parameters
 	localparam H_DISPLAY       = 640; // horizontal display area
@@ -91,47 +91,6 @@ module vga_sync
         assign video_on = (h_count_reg < H_DISPLAY) 
                           && (v_count_reg < V_DISPLAY);
                           
-        /*
-        always @(*) begin
-        if (video_on) begin
-            if ((h_count_reg < H_DISPLAY / 2 + H_L_BORDER) && (v_count_reg < V_DISPLAY / 2 + V_T_BORDER) ) begin
-                // Top-Left: Red
-                
-                red = 4'b1111;
-                green = 4'b0000;
-                blue = 4'b0000;
-              //  rgb = {red, green, blue};
-            end else if ((h_count_reg >= H_DISPLAY / 2 + H_L_BORDER)  && (v_count_reg < V_DISPLAY / 2 + V_T_BORDER)) begin
-                // Top-Right: Green
-                red = 4'b0000;
-                green = 4'b1111;
-                blue = 4'b0000;
-             //   rgb = {red, green, blue};
-            end else if ((h_count_reg < H_DISPLAY / 2 + H_L_BORDER) && (v_count_reg >= V_DISPLAY / 2 + V_T_BORDER)) begin
-                // Bottom-Left: Blue
-                red = 4'b0000;
-                green = 4'b0000;
-                blue = 4'b1111;
-               // rgb = {red, green, blue};
-            end else begin
-                // Bottom-Right: White
-                red = 4'b1111;
-                green = 4'b1111;
-                blue = 4'b1111;
-             //   rgb = {red, green, blue};
-                
-                
-            end
-        end else begin
-            // Blank during retrace
-            red = 4'b0000;
-            green = 4'b0000;
-            blue = 4'b0000;
-           // rgb = {red, green, blue};
-        end
-    end
-    assign rgb = {red, green, blue};
-    */
 
         // output signals
         assign hsync  = hsync_reg;
