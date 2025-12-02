@@ -10,8 +10,10 @@ module design_top(
     // TODO: wire up the switches to debounce and input (edge-detect)
 
     wire error;
-    
-    
+
+
+    // assign row_column_raw = row_column_raw_nodebounce;
+
 
     //Used by Video circuit
     wire [9:0] x, y;
@@ -22,16 +24,23 @@ module design_top(
     reg [3:0] row, col;
     wire row_column;
 
+
+    assign nRow_debounced = nRow;
+    assign fire_debounced = fireBtn;
     //Error checking to make sure only one flip is switched
-    row_col_input R1 ( .sw(row_column_raw), .error(error), .out(row_column));
+    row_col_input R1 ( .sw(row_column_raw_nodebounce), .error(error), .out(row_column), .clk(clk));
 
     //Row or column select
     always @(posedge clk) begin
         if (!error) begin
-            if (!nRow_debounced)
+            if (!nRow_debounced) begin
                 row = row_column;
-            else
+                col = 4'b0000;
+            end
+            else begin
                 col = row_column;
+                row = 4'b0000;
+            end
         end
     end
 
@@ -68,9 +77,9 @@ module design_top(
 
     //Color decoders turn x signal into full color signal to display module
     color_decoder D1 ( .colorVec(display_state [7:0]), .fullColor(row1));
-    color_decoder D2 ( .colorVec(display_state [15:8]), .fullColor(row1));
-    color_decoder D3 ( .colorVec(display_state [23:16]), .fullColor(row1));
-    color_decoder D4 ( .colorVec(display_state [31:24]), .fullColor(row1));
+    color_decoder D2 ( .colorVec(display_state [15:8]), .fullColor(row2));
+    color_decoder D3 ( .colorVec(display_state [23:16]), .fullColor(row3));
+    color_decoder D4 ( .colorVec(display_state [31:24]), .fullColor(row4));
 
     //Sync unit for vga timing
     vga_sync S1 (.reset(reset), .clk(clk), .x(x), .y(y), .video_on(videoOn), .hsync(hsync), .vsync(vsync));

@@ -5,7 +5,7 @@ module tb_x(
 
     reg rst, clk, row, col, add, fire;
     reg [1:0] load;
-    wire [3:0] to_vdc;
+    wire [1:0] to_vdc;
 
     x U1 ( .rst(rst), .clk(clk), .row_en(row), .col_en(col), .add_n(add), .fire(fire), .load(load), .to_vdc(to_vdc) );
 

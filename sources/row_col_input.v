@@ -2,11 +2,12 @@
 
 module row_col_input(
     input [3:0] sw,
+    input clk,
     output reg [3:0] out,
     output reg error
     );
 
-    always @(*) begin
+    always @(posedge clk) begin
         if ( sw == 4'b1000 | sw == 4'b0100 | sw == 4'b0010 | sw == 4'b0001 ) begin
             out = sw;
             error = 0;

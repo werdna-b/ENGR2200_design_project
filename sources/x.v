@@ -9,9 +9,9 @@
 module x(
     input rst, clk, row_en, col_en, add_n, fire,
     input [`COUNT_WIRES-1:0] load,
-    output [`VDC_VECTORNUM-1:0] to_vdc
-    );
-    
+    output [`COUNT_WIRES-1:0] to_vdc
+);
+
     reg [`COUNT_WIRES-1:0] count;
     reg fire_ff;
 
