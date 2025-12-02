@@ -26,6 +26,13 @@ module tb_generic_input();
         #21
 
         in = 0;
+        #5
+
+        in = 1;
+        #5
+
+        in = 0;
+        
 
     end
     
