@@ -1,14 +1,15 @@
 `timescale 1ns / 1ps
 module design_top(
-
-   input btnU, //Rename accordingly
-   input clk,
-
+   input clk, reset, fireBtn, //Buttons need to be debounced
+   input [3:0] row_column_raw,
+   input nRow, //low if row is selected
    output [11:0] rgb,
    output vsync, hsync
     );
 
     // TODO: wire up the switches to debounce and input (edge-detect)
+    
+    wire error;
     
     //Used by Video circuit
     wire [9:0] x, y;
@@ -16,7 +17,6 @@ module design_top(
     wire [47:0] row1, row2, row3, row4;
     
     //For row/column select
-
     reg [3:0] row, column, row_column;
     
     //Error checking to make sure only one flip is switched
@@ -35,7 +35,6 @@ module design_top(
     //X module 
     wire [31:0] display_state;
     wire fire_debounced, addn_debounced;
-
 
     x X1 ( .rst(reset), clk(clk), row_en(row[0]), col_en(col[0]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[1:0]) );
     x X2 ( .rst(reset), clk(clk), row_en(row[0]), col_en(col[1]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[3:2]) );
