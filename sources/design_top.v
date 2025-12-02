@@ -1,8 +1,8 @@
 `timescale 1ns / 1ps
 module design_top(
-   input clk, reset, fireBtn, //Buttons need to be debounced
-   input [3:0] row_column_raw,
-   input nRow, //low if row is selected
+   input clk, reset, fireBtn, //Buttons need to be debounced --reset is btnC, fire is btnU
+   input [3:0] row_column_raw_nodebounce, //Need this to be debounced --Switches 1-4
+   input nRow, //low if row is selected //Needs to be debounced to nRow_debounced --Switch 6
    output [11:0] rgb,
    output vsync, hsync
     );
@@ -25,32 +25,36 @@ module design_top(
     //Row or column select
     always @(posedge clk) begin
        if (!error) begin
-          if (!nRow) 
+          if (!nRow_debounced) 
              row = row_column;
           else
              column = row_column;
        end
     end
        
-    //X module 
+    //X module wires
     wire [31:0] display_state;
     wire fire_debounced, addn_debounced;
-
+    
+    //First row of cells
     x X1 ( .rst(reset), clk(clk), row_en(row[0]), col_en(col[0]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[1:0]) );
     x X2 ( .rst(reset), clk(clk), row_en(row[0]), col_en(col[1]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[3:2]) );
     x X3 ( .rst(reset), clk(clk), row_en(row[0]), col_en(col[2]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[5:4]) );
     x X4 ( .rst(reset), clk(clk), row_en(row[0]), col_en(col[3]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[7:6]) );
     
+    //second row
     x X5 ( .rst(reset), clk(clk), row_en(row[1]), col_en(col[0]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[9:8]) );
     x X6 ( .rst(reset), clk(clk), row_en(row[1]), col_en(col[1]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[11:10]) );
     x X7 ( .rst(reset), clk(clk), row_en(row[1]), col_en(col[2]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[13:12]) );
     x X8 ( .rst(reset), clk(clk), row_en(row[1]), col_en(col[3]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[15:14]) );
     
+    //third row
     x X9 ( .rst(reset), clk(clk), row_en(row[2]), col_en(col[0]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[17:16]) );
     x X10 ( .rst(reset), clk(clk), row_en(row[2]), col_en(col[1]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[19:18]) );
     x X11 ( .rst(reset), clk(clk), row_en(row[2]), col_en(col[2]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[21:20]) );
     x X12 ( .rst(reset), clk(clk), row_en(row[2]), col_en(col[3]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[23:22]) );
     
+    //fourth row
     x X13 ( .rst(reset), clk(clk), row_en(row[3]), col_en(col[0]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[25:24]) );
     x X14 ( .rst(reset), clk(clk), row_en(row[3]), col_en(col[1]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[27:26]) );
     x X15 ( .rst(reset), clk(clk), row_en(row[3]), col_en(col[2]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[29:28]) );
