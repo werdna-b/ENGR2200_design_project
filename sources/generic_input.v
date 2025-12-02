@@ -1,6 +1,6 @@
 `timescale 1ps/1ps
 
-// output HIGH for the period after the button is pressed until the next clock HIGH
+// output HIGH for the period after the button is pressed until the next clock posedge
 // by Andrew Bargen, <abargen@my.nnu.edu>
 
 module generic_input (
