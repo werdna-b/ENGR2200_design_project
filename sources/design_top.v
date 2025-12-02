@@ -1,7 +1,9 @@
 `timescale 1ns / 1ps
 module design_top(
+
    input btnU, //Rename accordingly
    input clk,
+
    output [11:0] rgb,
    output vsync, hsync
     );
@@ -14,14 +16,49 @@ module design_top(
     wire [47:0] row1, row2, row3, row4;
     
     //For row/column select
-    wire [3:0] row, column;
-    
-    row_col_input T1 (
-    
 
-    reg [31:0] display_state;
+    reg [3:0] row, column, row_column;
+    
+    //Error checking to make sure only one flip is switched
+    row_col_input R1 ( .sw(row_column_raw), .error(error), .out(row_column));
+    
+    //Row or column select
+    always @(posedge clk) begin
+       if (!error) begin
+          if (!nRow) 
+             row = row_column;
+          else
+             column = row_column;
+       end
+    end
+       
+    //X module 
+    wire [31:0] display_state;
+    wire fire_debounced, addn_debounced;
 
-    x X1 ( .rst(rst), clk(clk), row_en(sw[0]), col_en(sw[0]), add_n(1), fire(btnC), load(2'b00), to_vdc(display_state[1:0]) );
+
+    x X1 ( .rst(reset), clk(clk), row_en(row[0]), col_en(col[0]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[1:0]) );
+    x X2 ( .rst(reset), clk(clk), row_en(row[0]), col_en(col[1]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[3:2]) );
+    x X3 ( .rst(reset), clk(clk), row_en(row[0]), col_en(col[2]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[5:4]) );
+    x X4 ( .rst(reset), clk(clk), row_en(row[0]), col_en(col[3]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[7:6]) );
+    
+    x X5 ( .rst(reset), clk(clk), row_en(row[1]), col_en(col[0]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[9:8]) );
+    x X6 ( .rst(reset), clk(clk), row_en(row[1]), col_en(col[1]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[11:10]) );
+    x X7 ( .rst(reset), clk(clk), row_en(row[1]), col_en(col[2]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[13:12]) );
+    x X8 ( .rst(reset), clk(clk), row_en(row[1]), col_en(col[3]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[15:14]) );
+    
+    x X9 ( .rst(reset), clk(clk), row_en(row[2]), col_en(col[0]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[17:16]) );
+    x X10 ( .rst(reset), clk(clk), row_en(row[2]), col_en(col[1]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[19:18]) );
+    x X11 ( .rst(reset), clk(clk), row_en(row[2]), col_en(col[2]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[21:20]) );
+    x X12 ( .rst(reset), clk(clk), row_en(row[2]), col_en(col[3]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[23:22]) );
+    
+    x X13 ( .rst(reset), clk(clk), row_en(row[3]), col_en(col[0]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[25:24]) );
+    x X14 ( .rst(reset), clk(clk), row_en(row[3]), col_en(col[1]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[27:26]) );
+    x X15 ( .rst(reset), clk(clk), row_en(row[3]), col_en(col[2]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[29:28]) );
+    x X16 ( .rst(reset), clk(clk), row_en(row[3]), col_en(col[3]), add_n(addn_debounced), fire(fire_debounced), load(2'b00), to_vdc(display_state[31:30]) );
+    
+    
+    
     
     //Color decoders turn x signal into full color signal to display module
     color_decoder D1 ( .colorVec(display_state [7:0]), .fullColor(row1));    
@@ -29,10 +66,10 @@ module design_top(
     color_decoder D3 ( .colorVec(display_state [23:16]), .fullColor(row1));    
     color_decoder D4 ( .colorVec(display_state [31:24]), .fullColor(row1));
     
-    //Sync unit for timing stuff
-    vga_sync S1 (.reset(btnU), .clk(clk), .x(x), .y(y), .video_on(videoOn), .hsync(hsync), .vsync(vsync)); 
+    //Sync unit for vga timing
+    vga_sync S1 (.reset(reset), .clk(clk), .x(x), .y(y), .video_on(videoOn), .hsync(hsync), .vsync(vsync)); 
     
-    //display unit that actually prints the squares
+    //display unit that prints the squares
     display U1 (.clk(clk), .x(x), .y(y), .video_on(videoOn), .x1(row1), .x2(row2), .x3(row3), .x4(row4), .rgb(rgb));
 
 endmodule

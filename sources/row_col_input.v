@@ -12,7 +12,7 @@ module row_col_input(
             error = 0;
         end
         else begin
-            out = 4'b0000;
+            //out = 4'b0000;
             error = 1;
         end
 
