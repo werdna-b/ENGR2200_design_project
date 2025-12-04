@@ -4,12 +4,17 @@ module design_top(
     input [3:0] row_column_raw_nodebounce, //Need this to be debounced --Switches 1-4
     input nRow, //low if row is selected //Needs to be debounced to nRow_debounced --Switch 6
     output [11:0] rgb,
-    output vsync, hsync
+    output vsync, hsync, error
+   // output [47:0] r1, r2, r3, r4,
+   // output [31:0] d_out,
+   // output reg [3:0] row_out, col_out
 );
 
     // TODO: wire up the switches to debounce and input (edge-detect)
 
-    wire error;
+    
+
+    
 
 
     // assign row_column_raw = row_column_raw_nodebounce;
@@ -22,7 +27,7 @@ module design_top(
 
     //For row/column select
     reg [3:0] row, col;
-    wire row_column;
+    wire [3:0] row_column;
 
 
     assign nRow_debounced = nRow;
@@ -31,8 +36,12 @@ module design_top(
     row_col_input R1 ( .sw(row_column_raw_nodebounce), .error(error), .out(row_column), .clk(clk));
 
     //Row or column select
-    always @(posedge clk) begin
-        if (!error) begin
+    always @(*) begin
+        if (error) begin
+           col = 4'b000;
+           row = 4'b000;
+        end
+        else begin
             if (!nRow_debounced) begin
                 row = row_column;
                 col = 4'b0000;
@@ -86,5 +95,16 @@ module design_top(
 
     //display unit that prints the squares
     display U1 (.clk(clk), .x(x), .y(y), .videoOn(videoOn), .x1(row1), .x2(row2), .x3(row3), .x4(row4), .rgb(rgb));
+    
+  //  assign r1 = row1;
+  //  assign r2 = row2;
+  //  assign r3 = row3;
+  //  assign r4 = row4;
+  //  assign d_out = display_state;
+
+   // always @(*) begin
+     //   row_out = row;
+       // col_out = col;
+   // end
 
 endmodule
