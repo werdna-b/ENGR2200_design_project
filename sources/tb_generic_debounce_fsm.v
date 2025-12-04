@@ -4,7 +4,7 @@ module tb_generic_debounce_fsm();
 
     reg rst, clk, btn;
     wire out;
-    wire [1:0] count;
+    wire [17-1:0] count;
     wire state;
 
     generic_debounce U1( .reset(rst), .clk(clk), .named_btn(btn), .named_out(out), .count_out(count), .state_out(state) );
@@ -26,7 +26,7 @@ module tb_generic_debounce_fsm();
         #5
 
         btn = 1;
-        #40
+        #200002
 
         btn = 0;
         #5
@@ -41,7 +41,7 @@ module tb_generic_debounce_fsm();
         #2
 
         btn = 0;
-        #40
+        #200002
 
         btn = 1;
         #2
