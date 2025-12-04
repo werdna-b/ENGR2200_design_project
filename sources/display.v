@@ -4,42 +4,44 @@ module display(
     input [9:0] x, y,
     input [47:0] x1, x2, x3, x4,
     // input [15:0] switches, //For testing
-    input clk, videoOn, error, 
+    input clk, videoOn, error,
     output reg [11:0] rgb
 );
     wire red, green, blue;
 
 
 
-
+    //sets dimensions of monitor
     localparam xMax = 640;
     localparam yMax = 480;
 
+    //marks dimensions of various screen elements
     localparam cellWidth = 100;
     localparam borderY = 30;
     localparam borderX = 110;
     localparam gapWidth = 4;
+    localparam indicatorH = 4;
+    localparam indicatorL = 11;
+    localparam indicatorToY = 6;
+    localparam indicatorToX = 6;
 
+    //Color definitions
     localparam gapColor = 12'h7FF;
+    localparam indicatorColor = 12'hB70;
+
+    //So background color can change when error is high
     reg [11:0] borderColor;
     localparam borderColor_default = 12'h606;
     localparam borderColor_error = 12'hA30;
 
-    
 
+    //Background error change logic
     always @(*) begin
         if (error)
             borderColor = borderColor_error;
         else
             borderColor = borderColor_default;
     end
-
-
-    //  localparam x1 = 48'hFF8FF0F8FF08;
-    //  localparam x2 = 48'h08F89F7FEC6E;
-    //  localparam x3 = 48'hF000FF00FF0F;
-    //  localparam x4 = 48'hF0F0F0F0F0FF;
-
 
     always @(posedge clk) begin
         if (videoOn) begin
@@ -56,8 +58,15 @@ module display(
                     rgb = borderColor;
 
             else if ( y <= (borderY + gapWidth + cellWidth)) begin
-                if ( x <= borderX )
-                    rgb = borderColor;
+                if ( x <= borderX ) begin
+                    if (x <= (borderX - indicatorL - indicatorToY))
+                        rgb = borderColor;
+                    else if (x <= (borderX - indicatorToY))
+                        rgb = indicatorColor;
+                    else
+                        rgb = borderColor;
+                end
+
                 else if ( x <= (borderX + gapWidth))
                     rgb = gapColor;
                 else if ( x <= (borderX + gapWidth + cellWidth)) begin
