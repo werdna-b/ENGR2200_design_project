@@ -23,7 +23,7 @@ module display(
     localparam gapColor = 12'h7FF;
     reg [11:0] borderColor;
     localparam borderColor_default = 12'h606;
-    localparam borderColor_error = 12'hFFF;
+    localparam borderColor_error = 12'hA30;
 
     
 
