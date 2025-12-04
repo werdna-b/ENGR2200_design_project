@@ -20,18 +20,18 @@ module display(
     localparam borderX = 110;
     localparam gapWidth = 4;
 
-    localparam borderColor = 12'h7FF;
-    reg gapColor;
-    localparam gapColor_default = 12'h7FF;
-    localparam gapColor_error = 12'hFFF;
+    localparam gapColor = 12'h7FF;
+    reg [11:0] borderColor;
+    localparam borderColor_default = 12'h606;
+    localparam borderColor_error = 12'hFFF;
 
     
 
     always @(*) begin
         if (error)
-            gapColor = gapColor_error;
+            borderColor = borderColor_error;
         else
-            gapColor = gapColor_default;
+            borderColor = borderColor_default;
     end
 
 
