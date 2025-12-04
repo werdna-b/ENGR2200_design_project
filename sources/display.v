@@ -47,7 +47,14 @@ module display(
         if (videoOn) begin
 
             if (y <= borderY)
-                rgb =  borderColor;
+                //indicator marks for top rows
+
+                if (x <= (borderX + gapWidth + (cellWidth/2)-(indicatorH / 2)))
+                    rgb = borderColor;
+                else if (x <= (borderX + gapWidth + (cellWidth/2)+(indicatorH / 2)))
+                    rgb = indicatorColor;
+                else
+                    rgb =  borderColor;
 
             else if ( y <= borderY + gapWidth)
                 if (x <= borderX)
@@ -58,14 +65,10 @@ module display(
                     rgb = borderColor;
 
             else if ( y <= (borderY + gapWidth + cellWidth)) begin
-                if ( x <= borderX ) begin
-                    if (x <= (borderX - indicatorL - indicatorToY))
-                        rgb = borderColor;
-                    else if (x <= (borderX - indicatorToY))
-                        rgb = indicatorColor;
-                    else
-                        rgb = borderColor;
-                end
+                if ( x <= borderX )
+                    //indicator mark for first cell
+
+                    rgb = borderColor;
 
                 else if ( x <= (borderX + gapWidth))
                     rgb = gapColor;
