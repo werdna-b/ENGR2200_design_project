@@ -5,18 +5,18 @@ module design_top(
     input nRow, //low if row is selected //Needs to be debounced to nRow_debounced --Switch 6
     output [11:0] rgb,
     output vsync, hsync, error
-   // output [47:0] r1, r2, r3, r4,
-   // output [31:0] d_out,
-   // output reg [3:0] row_out, col_out
+    // output [47:0] r1, r2, r3, r4,
+    // output [31:0] d_out,
+    // output reg [3:0] row_out, col_out
 );
 
     // TODO: wire up the switches to debounce and input (edge-detect)
 
-    
-  //X module wires
+
+    //X module wires
     wire [31:0] display_state;
     wire fire_debounced, addn_debounced, nRow_debounced;
-    
+
 
 
     // assign row_column_raw = row_column_raw_nodebounce;
@@ -40,8 +40,8 @@ module design_top(
     //Row or column select
     always @(*) begin
         if (error) begin
-           col = 4'b000;
-           row = 4'b000;
+            col = 4'b000;
+            row = 4'b000;
         end
         else begin
             if (!nRow_debounced) begin
@@ -55,7 +55,7 @@ module design_top(
         end
     end
 
-    
+
 
     //First row of cells
     x X1 ( .rst(reset), .clk(clk), .row_en(row[0]), .col_en(col[0]), .add_n(addn_debounced), .fire(fire_debounced), .load(2'b00), .to_vdc(display_state[1:0]) );
@@ -94,17 +94,17 @@ module design_top(
     vga_sync S1 (.reset(reset), .clk(clk), .x(x), .y(y), .video_on(videoOn), .hsync(hsync), .vsync(vsync));
 
     //display unit that prints the squares
-    display U1 (.clk(clk), .error(error), .x(x), .y(y), .videoOn(videoOn), .x1(row1), .x2(row2), .x3(row3), .x4(row4), .rgb(rgb));
-    
-  //  assign r1 = row1;
-  //  assign r2 = row2;
-  //  assign r3 = row3;
-  //  assign r4 = row4;
-  //  assign d_out = display_state;
+    display U1 (.clk(clk), .error(error), .row(row), .col(col), .x(x), .y(y), .videoOn(videoOn), .x1(row1), .x2(row2), .x3(row3), .x4(row4), .rgb(rgb));
 
-   // always @(*) begin
-     //   row_out = row;
-       // col_out = col;
-   // end
+    //  assign r1 = row1;
+    //  assign r2 = row2;
+    //  assign r3 = row3;
+    //  assign r4 = row4;
+    //  assign d_out = display_state;
+
+    // always @(*) begin
+    //   row_out = row;
+    // col_out = col;
+    // end
 
 endmodule

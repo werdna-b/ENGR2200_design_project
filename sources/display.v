@@ -2,6 +2,7 @@
 
 module display(
     input [9:0] x, y,
+    input [3:0] row, col,
     input [47:0] x1, x2, x3, x4,
     // input [15:0] switches, //For testing
     input clk, videoOn, error,
@@ -27,7 +28,7 @@ module display(
 
     //Color definitions
     localparam gapColor = 12'h7FF;
-    localparam indicatorColor = 12'hB70;
+    localparam indicatorColor = 12'hDA0;
 
     //So background color can change when error is high
     reg [11:0] borderColor;
@@ -45,16 +46,45 @@ module display(
 
     always @(posedge clk) begin
         if (videoOn) begin
+            if (y <= (borderY - indicatorH - indicatorL))
+                rgb = borderColor;
 
-            if (y <= borderY)
+            else if (y <= borderY - indicatorH)
                 //indicator marks for top rows
 
                 if (x <= (borderX + gapWidth + (cellWidth/2)-(indicatorH / 2)))
                     rgb = borderColor;
                 else if (x <= (borderX + gapWidth + (cellWidth/2)+(indicatorH / 2)))
-                    rgb = indicatorColor;
+                    if (col[0])
+                        rgb = indicatorColor;
+                    else
+                        rgb = borderColor;
+                else if (x <= (borderX + 2*gapWidth + cellWidth + (cellWidth/2)-(indicatorH / 2)))
+                    rgb = borderColor;
+                else if (x <= (borderX + 2*gapWidth + cellWidth + (cellWidth/2)+(indicatorH / 2)))
+                    if (col[1])
+                        rgb = indicatorColor;
+                    else
+                        rgb = borderColor;
+                else if (x <= (borderX + 3*gapWidth + 2 * cellWidth + (cellWidth/2)-(indicatorH / 2)))
+                    rgb = borderColor;
+                else if (x <= (borderX + 3*gapWidth + 2 * cellWidth + (cellWidth/2)+(indicatorH / 2)))
+                    if (col[2])
+                        rgb = indicatorColor;
+                    else
+                        rgb = borderColor;
+                else if (x <= (borderX + 4*gapWidth + 3 * cellWidth + (cellWidth/2)-(indicatorH / 2)))
+                    rgb = borderColor;
+                else if (x <= (borderX + 4*gapWidth + 3 * cellWidth + (cellWidth/2)+(indicatorH / 2)))
+                    if (col[3])
+                        rgb = indicatorColor;
+                    else
+                        rgb = borderColor;
+
                 else
                     rgb =  borderColor;
+            else if (y <= borderY)
+                rgb = borderColor;
 
             else if ( y <= borderY + gapWidth)
                 if (x <= borderX)
