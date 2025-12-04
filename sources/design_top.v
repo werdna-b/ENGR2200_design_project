@@ -31,7 +31,7 @@ module design_top(
 
 
     assign nRow_debounced = nRow;
-    assign fire_debounced = fireBtn;
+    generic_debounce( .clk(clk), .reset(reset), .named_input(fireBtn), .named_out(fire_debounced) );
     //Error checking to make sure only one flip is switched
     row_col_input R1 ( .sw(row_column_raw_nodebounce), .error(error), .out(row_column), .clk(clk));
 

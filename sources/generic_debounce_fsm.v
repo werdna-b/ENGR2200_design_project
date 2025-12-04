@@ -12,9 +12,9 @@ module generic_debounce (
     input reset,
     input clk,
     input named_btn,
-    output reg named_out,
-    output wire [count_wires-1:0] count_out,
-    output wire state_out
+    output reg named_out //,
+    // output wire [count_wires-1:0] count_out,
+    // output wire state_out
 );
 
     parameter count = 2'd3; // half a second at 6MHz
@@ -50,8 +50,8 @@ module generic_debounce (
 
     end
 
-    assign count_out = counter;
-    assign state_out = state;
+    // assign count_out = counter;
+    // assign state_out = state;
 
     
 endmodule
