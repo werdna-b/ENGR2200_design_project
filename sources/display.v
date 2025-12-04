@@ -4,7 +4,7 @@ module display(
     input [9:0] x, y,
     input [47:0] x1, x2, x3, x4,
     // input [15:0] switches, //For testing
-    input clk, videoOn,
+    input clk, videoOn, error, 
     output reg [11:0] rgb
 );
     wire red, green, blue;
@@ -21,10 +21,11 @@ module display(
     localparam gapWidth = 4;
 
     localparam borderColor = 12'h7FF;
-    localparam gapColor_default = 12'hFA0;
-    localparam gapColor_error = FFF;
+    reg gapColor;
+    localparam gapColor_default = 12'h7FF;
+    localparam gapColor_error = 12'hFFF;
 
-    wire gapColor [11:0];
+    
 
     always @(*) begin
         if (error)

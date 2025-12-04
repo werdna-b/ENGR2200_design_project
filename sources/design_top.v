@@ -13,7 +13,9 @@ module design_top(
     // TODO: wire up the switches to debounce and input (edge-detect)
 
     
-
+  //X module wires
+    wire [31:0] display_state;
+    wire fire_debounced, addn_debounced, nRow_debounced;
     
 
 
@@ -31,7 +33,7 @@ module design_top(
 
 
     assign nRow_debounced = nRow;
-    generic_debounce( .clk(clk), .reset(reset), .named_input(fireBtn), .named_out(fire_debounced) );
+    generic_debounce( .clk(clk), .reset(reset), .named_btn(fireBtn), .named_out(fire_debounced) );
     //Error checking to make sure only one flip is switched
     row_col_input R1 ( .sw(row_column_raw_nodebounce), .error(error), .out(row_column), .clk(clk));
 
@@ -53,9 +55,7 @@ module design_top(
         end
     end
 
-    //X module wires
-    wire [31:0] display_state;
-    wire fire_debounced, addn_debounced, nRow_debounced;
+    
 
     //First row of cells
     x X1 ( .rst(reset), .clk(clk), .row_en(row[0]), .col_en(col[0]), .add_n(addn_debounced), .fire(fire_debounced), .load(2'b00), .to_vdc(display_state[1:0]) );
@@ -94,7 +94,7 @@ module design_top(
     vga_sync S1 (.reset(reset), .clk(clk), .x(x), .y(y), .video_on(videoOn), .hsync(hsync), .vsync(vsync));
 
     //display unit that prints the squares
-    display U1 (.clk(clk), .x(x), .y(y), .videoOn(videoOn), .x1(row1), .x2(row2), .x3(row3), .x4(row4), .rgb(rgb));
+    display U1 (.clk(clk), .error(error), .x(x), .y(y), .videoOn(videoOn), .x1(row1), .x2(row2), .x3(row3), .x4(row4), .rgb(rgb));
     
   //  assign r1 = row1;
   //  assign r2 = row2;
