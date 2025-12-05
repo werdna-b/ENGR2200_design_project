@@ -95,9 +95,21 @@ module display(
                     rgb = borderColor;
 
             else if ( y <= (borderY + gapWidth + cellWidth)) begin
-                if ( x <= borderX )
-                    //indicator mark for first cell
+                if ( x <= (borderX/2 - indicatorL/2 ))
+                    //indicator mark for first row
+                    rgb = borderColor;
+                else if (x <= (borderX/2 + indicatorL/2))
+                    if ( y <= (borderY + gapWidth + cellWidth/2 - indicatorH/2))
+                        rgb = borderColor;
+                    else if (y <= (borderY + gapWidth + cellWidth/2 + indicatorH/2))
+                        if (row[0])
+                            rgb = indicatorColor;
+                        else
+                            rgb = borderColor;
+                    else
+                        rgb = borderColor;
 
+                else if ( x <= borderX)
                     rgb = borderColor;
 
                 else if ( x <= (borderX + gapWidth))
@@ -136,8 +148,23 @@ module display(
                     rgb = borderColor;
 
             else if (y <= (borderY + 2*gapWidth + 2 * cellWidth)) begin
-                if ( x <= borderX )
+                if ( x <= (borderX/2 - indicatorL/2 ))
+                    //indicator mark for second row
                     rgb = borderColor;
+                else if (x <= (borderX/2 + indicatorL/2))
+                    if ( y <= (borderY + 2 * gapWidth + cellWidth + cellWidth/2 - indicatorH/2))
+                        rgb = borderColor;
+                    else if (y <= (borderY + 2 * gapWidth + cellWidth + cellWidth/2 + indicatorH/2))
+                        if (row[1])
+                            rgb = indicatorColor;
+                        else
+                            rgb = borderColor;
+                    else
+                        rgb = borderColor;
+
+                else if ( x <= borderX)
+                    rgb = borderColor;
+
                 else if ( x <= (borderX + gapWidth))
                     rgb = gapColor;
                 else if ( x <= (borderX + gapWidth + cellWidth)) begin
@@ -173,8 +200,23 @@ module display(
                     rgb = borderColor;
 
             else if (y <= (borderY + 3*gapWidth + 3 * cellWidth)) begin
-                if ( x <= borderX )
+                if ( x <= (borderX/2 - indicatorL/2 ))
+                    //indicator mark for third row
                     rgb = borderColor;
+                else if (x <= (borderX/2 + indicatorL/2))
+                    if ( y <= (borderY + gapWidth * 3 + cellWidth * 2 + cellWidth/2 - indicatorH/2))
+                        rgb = borderColor;
+                    else if (y <= (borderY + gapWidth * 3 + cellWidth * 2 + cellWidth/2 + indicatorH/2))
+                        if (row[2])
+                            rgb = indicatorColor;
+                        else
+                            rgb = borderColor;
+                    else
+                        rgb = borderColor;
+
+                else if ( x <= borderX)
+                    rgb = borderColor;
+
                 else if ( x <= (borderX + gapWidth))
                     rgb = gapColor;
                 else if ( x <= (borderX + gapWidth + cellWidth)) begin
@@ -210,7 +252,20 @@ module display(
                     rgb = borderColor;
 
             else if (y <= (borderY + 4*gapWidth + 4 * cellWidth)) begin
-                if ( x <= borderX )
+                if ( x <= (borderX/2 - indicatorL/2 ))
+                    //indicator mark for first row
+                    rgb = borderColor;
+                else if (x <= (borderX/2 + indicatorL/2))
+                    if ( y <= (borderY + gapWidth * 4 + cellWidth * 3 + cellWidth/2 - indicatorH/2))
+                        rgb = borderColor;
+                    else if (y <= (borderY + gapWidth * 4 + cellWidth * 3 + cellWidth/2 + indicatorH/2))
+                        if (row[3])
+                            rgb = indicatorColor;
+                        else
+                            rgb = borderColor;
+                    else
+                        rgb = borderColor;
+                else if ( x <= borderX)
                     rgb = borderColor;
                 else if ( x <= (borderX + gapWidth))
                     rgb = gapColor;
