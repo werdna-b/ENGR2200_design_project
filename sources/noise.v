@@ -3,7 +3,7 @@
 
 module Audio_Gen(
     input clk,          // 100 MHz System Clock (Pin W5)
-    input sw,           // Switch 0 to turn sound ON/OFF (Pin V17)
+    input buzzer_on,           // Switch 0 to turn sound ON/OFF (Pin V17)
     output audio_out,   // Audio Signal (Pin JA1)
     output amp_gain,    // Gain Control (Pin JA2)
     output amp_shdn    // Shutdown Control (Pin JA3)
@@ -20,7 +20,7 @@ module Audio_Gen(
     reg speaker_state = 0;
 
     always @(posedge clk) begin
-        if (sw == 1'b1) begin
+        if (buzzer_on == 1'b1) begin
             // Only run the counter if the switch is ON
             if (counter >= TOGGLE_LIMIT) begin
                 counter <= 0;
@@ -38,7 +38,7 @@ module Audio_Gen(
     assign audio_out = speaker_state;
     
     // PmodAMP2 Control Signals
-    assign amp_gain = 0;      // 1 = 12dB Gain (Louder)
-    assign amp_shdn = sw;        // Amp is ON only when Switch is ON
+    assign amp_gain = 1;      // 1 = 12dB Gain (Louder)
+    assign amp_shdn = buzzer_on;        // Amp is ON only when Switch is ON
 
 endmodule
