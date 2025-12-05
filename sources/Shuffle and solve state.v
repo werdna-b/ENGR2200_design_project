@@ -29,11 +29,13 @@ module Lets_go(
     output amp_shdn    // Shutdown Control (Pin JA3)
     );
     
-    reg count;
-    count = 0;
+    
+    reg [15:0] count;
+    count = 'b0000000000000000;
     
     if (sw15 == 1)
-        always @(posedge btnC ) begin
+        always @(posedge clk ) begin
+            
             count <= count + 1; // Count up
         end
     else 
