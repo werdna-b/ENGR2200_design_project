@@ -99,10 +99,10 @@ module design_top(
     display U1 (.clk(clk), .error(error), .row(row), .col(col), .x(x), .y(y), .videoOn(videoOn), .x1(row1), .x2(row2), .x3(row3), .x4(row4), .rgb(rgb));
 
     //Checking for win state
-    check_for_win W1 (.clk(clk), .screenValues(display_state), .Buzz(win));
+    check_for_win W1 (.clk(clk), .ScreenValues(display_state), .Buzz(win));
     
     //Plays noise if win is reached
-    noise S1 ( .clk(clk), .sw(win), .audio_out(audio_output), .amp_gain(amplifier_gain), .ampshdn(amp_shutdown));
+    noise S1 ( .clk(clk), .buzzer_on(win), .audio_out(audio_output), .amp_gain(amplifier_gain), .amp_shdn(amp_shutdown));
     
     //  assign r1 = row1;
     //  assign r2 = row2;
