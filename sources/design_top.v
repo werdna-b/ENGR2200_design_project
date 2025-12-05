@@ -1,10 +1,10 @@
 `timescale 1ns / 1ps
 module design_top(
-    input clk, reset, fireBtn, //Buttons need to be debounced --reset is btnC, fire is btnU
+    input clk, reset, fireBtn, mix_state, //Buttons need to be debounced --reset is btnC, fire is btnU
     input [3:0] row_column_raw_nodebounce, //Need this to be debounced --Switches 1-4
     input nRow, //low if row is selected //Needs to be debounced to nRow_debounced --Switch 6
     output [11:0] rgb,
-    output vsync, hsync, error
+    output vsync, hsync, error, amp_shutdown, audio_output, amplifier_gain
     // output [47:0] r1, r2, r3, r4,
     // output [31:0] d_out,
     // output reg [3:0] row_out, col_out
@@ -16,6 +16,8 @@ module design_top(
     //X module wires
     wire [31:0] display_state;
     wire fire_debounced, addn_debounced, nRow_debounced;
+    
+    wire win;
 
 
 
@@ -96,6 +98,12 @@ module design_top(
     //display unit that prints the squares
     display U1 (.clk(clk), .error(error), .row(row), .col(col), .x(x), .y(y), .videoOn(videoOn), .x1(row1), .x2(row2), .x3(row3), .x4(row4), .rgb(rgb));
 
+    //Checking for win state
+    check_for_win W1 (.clk(clk), .screenValues(display_state), .Buzz(win));
+    
+    //Plays noise if win is reached
+    noise S1 ( .clk(clk), .sw(win), .audio_out(audio_output), .amp_gain(amplifier_gain), .ampshdn(amp_shutdown));
+    
     //  assign r1 = row1;
     //  assign r2 = row2;
     //  assign r3 = row3;

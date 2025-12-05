@@ -19,6 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+/*
 
 module Lets_go(
     input clk,          // 100 MHz System Clock (Pin W5)
@@ -49,3 +50,4 @@ endmodule
 
 module adder(
     input 
+    */

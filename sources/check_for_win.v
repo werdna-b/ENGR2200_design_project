@@ -4,6 +4,7 @@ module check_for_win #(parameter NumberOfBits = 31)(
     input reset,
     output Buzz
 );
+
 integer count;
 integer ForCount;
 reg WinCondition;

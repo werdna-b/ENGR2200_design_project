@@ -38,7 +38,7 @@ module Audio_Gen(
     assign audio_out = speaker_state;
     
     // PmodAMP2 Control Signals
-    assign amp_gain = 1;      // 1 = 12dB Gain (Louder)
+    assign amp_gain = 0;      // 1 = 12dB Gain (Louder)
     assign amp_shdn = sw;        // Amp is ON only when Switch is ON
 
 endmodule
