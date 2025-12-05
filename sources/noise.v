@@ -41,4 +41,4 @@ module Audio_Gen(
     assign amp_gain = 1;      // 1 = 12dB Gain (Louder)
     assign amp_shdn = buzzer_on;        // Amp is ON only when Switch is ON
 
-endmodule
+endmodule 
