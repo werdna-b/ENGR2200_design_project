@@ -6,16 +6,17 @@ module Lets_go #(parameter RandNum= 31)(
     input ScreenNum,
     input mix_state,
     input ScrambleButton,
-    output RandomPlease
+    output reg  RandomPlease
     );
     
     reg RandomPleaseYes;
-    always @(posedge clk) begin
+    always @(*) begin
     
     if (mix_state == 'b0 && ScrambleButton == 'b1) 
-       assign RandomPleaseYes = 1;
+        RandomPlease = 'b1;
     
-    
+    else 
+        RandomPlease = 'b0;
     
     end
     
