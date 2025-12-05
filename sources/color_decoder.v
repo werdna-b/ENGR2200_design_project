@@ -11,10 +11,10 @@ module color_decoder(
     parameter color3_a = 12'h00F; //Blue 
     parameter color4_a = 12'hFF0; //Yellow - Hopefully
 
-    parameter color1_b = 12'h0FF;
-    parameter color2_b = 12'hF0F;
-    parameter color3_b = 12'hFF0;
-    parameter color4_b = 12'h80C;
+    parameter color1_b = 12'h0FF; //cyan
+    parameter color2_b = 12'hF0F; //magenta
+    parameter color3_b = 12'hFF0; //yellow
+    parameter color4_b = 12'h08C; //weird purple
 
     always @(*) begin
         if (color_shift) begin
