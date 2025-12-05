@@ -31,7 +31,7 @@ module color_decoder(
         end
     end
 
-    wire [11:0] color1, color2, color3, color4;
+    reg [11:0] color1, color2, color3, color4;
 
 
     always @(*) begin

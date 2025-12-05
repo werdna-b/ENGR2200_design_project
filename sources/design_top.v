@@ -37,7 +37,7 @@ module design_top(
     assign nRow_debounced = nRow;
     generic_debounce( .clk(clk), .reset(reset), .named_btn(fireBtn), .named_out(fire_debounced) );
     //Error checking to make sure only one flip is switched
-    row_col_input R1 ( .sw(row_column_raw_nodebounce), .color_shift(palatte_switcher), .error(error), .out(row_column), .clk(clk));
+    row_col_input R1 ( .sw(row_column_raw_nodebounce),  .error(error), .out(row_column), .clk(clk));
 
     //Row or column select
     always @(*) begin
@@ -87,13 +87,13 @@ module design_top(
 
 
     //Color decoders turn x signal into full color signal to display module
-    color_decoder D1 ( .colorVec(display_state [7:0]), .fullColor(row1));
-    color_decoder D2 ( .colorVec(display_state [15:8]), .fullColor(row2));
-    color_decoder D3 ( .colorVec(display_state [23:16]), .fullColor(row3));
-    color_decoder D4 ( .colorVec(display_state [31:24]), .fullColor(row4));
+    color_decoder D1 ( .colorVec(display_state [7:0]), .color_shift(palatte_switcher), .fullColor(row1));
+    color_decoder D2 ( .colorVec(display_state [15:8]), .color_shift(palatte_switcher), .fullColor(row2));
+    color_decoder D3 ( .colorVec(display_state [23:16]), .color_shift(palatte_switcher), .fullColor(row3));
+    color_decoder D4 ( .colorVec(display_state [31:24]), .color_shift(palatte_switcher), .fullColor(row4));
 
     //Sync unit for vga timing
-    vga_sync S1 (.reset(reset), .clk(clk), .x(x), .y(y), .video_on(videoOn), .hsync(hsync), .vsync(vsync));
+    vga_sync Speaker1 (.reset(reset), .clk(clk), .x(x), .y(y), .video_on(videoOn), .hsync(hsync), .vsync(vsync));
 
     //display unit that prints the squares
     display U1 (.clk(clk), .error(error), .row(row), .col(col), .x(x), .y(y), .videoOn(videoOn), .x1(row1), .x2(row2), .x3(row3), .x4(row4), .rgb(rgb));
