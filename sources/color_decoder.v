@@ -2,13 +2,37 @@
 
 module color_decoder(
     input [7:0] colorVec,
+    input color_shift,
     output reg [47:0] fullColor
 );
 
-    parameter color1 = 12'hF00; //Red 
-    parameter color2 = 12'h0F0; //Green 
-    parameter color3 = 12'h00F; //Blue 
-    parameter color4 = 12'hFF0; //Yellow - Hopefully
+    parameter color1_a = 12'hF00; //Red 
+    parameter color2_a = 12'h0F0; //Green 
+    parameter color3_a = 12'h00F; //Blue 
+    parameter color4_a = 12'hFF0; //Yellow - Hopefully
+
+    parameter color1_b = 12'h0FF;
+    parameter color2_b = 12'hF0F;
+    parameter color3_b = 12'hFF0;
+    parameter color4_b = 12'h80C;
+
+    always @(*) begin
+        if (color_shift) begin
+            color1 = color1_b;
+            color2 = color2_b;
+            color3 = color3_b;
+            color4 = color4_b;
+        end
+        else begin
+            color1 = color1_a;
+            color2 = color2_a;
+            color3 = color3_a;
+            color4 = color4_a;
+        end
+    end
+
+    wire [11:0] color1, color2, color3, color4;
+
 
     always @(*) begin
 
@@ -25,14 +49,14 @@ module color_decoder(
             2'b10: fullColor [23:12] = color3;
             2'b11: fullColor [23:12] = color4;
         endcase
-        
+
         case (colorVec [5:4])
             2'b00: fullColor [35:24] = color1;
             2'b01: fullColor [35:24] = color2;
             2'b10: fullColor [35:24] = color3;
             2'b11: fullColor [35:24] = color4;
         endcase
-        
+
         case (colorVec [7:6])
             2'b00: fullColor [47:36] = color1;
             2'b01: fullColor [47:36] = color2;

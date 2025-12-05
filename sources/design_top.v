@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 module design_top(
-    input clk, reset, fireBtn, mix_state, //Buttons need to be debounced --reset is btnC, fire is btnU
+    input clk, reset, fireBtn, mix_state, palatte_switcher, //Buttons need to be debounced --reset is btnC, fire is btnU
     input [3:0] row_column_raw_nodebounce, //Need this to be debounced --Switches 1-4
     input nRow, //low if row is selected //Needs to be debounced to nRow_debounced --Switch 6
     output [11:0] rgb,
@@ -37,7 +37,7 @@ module design_top(
     assign nRow_debounced = nRow;
     generic_debounce( .clk(clk), .reset(reset), .named_btn(fireBtn), .named_out(fire_debounced) );
     //Error checking to make sure only one flip is switched
-    row_col_input R1 ( .sw(row_column_raw_nodebounce), .error(error), .out(row_column), .clk(clk));
+    row_col_input R1 ( .sw(row_column_raw_nodebounce), .color_shift(palatte_switcher), .error(error), .out(row_column), .clk(clk));
 
     //Row or column select
     always @(*) begin
