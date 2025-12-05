@@ -28,7 +28,7 @@ module display(
 
     //Color definitions
     localparam gapColor = 12'h7FF;
-    localparam indicatorColor = 12'hDA0;
+    localparam indicatorColor = 12'h8E8;
 
     //So background color can change when error is high
     reg [11:0] borderColor;
