@@ -1,9 +1,9 @@
 `timescale 1ns / 1ps
 
 
-module noise(
+module Audio_Gen(
     input clk,          // 100 MHz System Clock (Pin W5)
-    input buzzer_on,           // Switch 0 to turn sound ON/OFF (Pin V17)
+    input buzzer_on,    
     output audio_out,   // Audio Signal (Pin JA1)
     output amp_gain,    // Gain Control (Pin JA2)
     output amp_shdn    // Shutdown Control (Pin JA3)
