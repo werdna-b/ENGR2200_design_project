@@ -24,7 +24,7 @@ module noise(
         if (NoBuzz == 'b1);
             speaker_state = 0;
       
-        if else (buzzer_on == 1'b1) begin
+        else if (buzzer_on == 1'b1) begin
             // Only run the counter if the switch is ON
             if (counter >= TOGGLE_LIMIT) begin
                 counter <= 0;
