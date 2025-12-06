@@ -109,11 +109,11 @@ module design_top(
 
 
 
-    //First row of cells
-    x X01 ( .rst(reset), .clk(clk), .row_en(row[0]), .col_en(col[0]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(display_state[1:0]) );
-    x X02 ( .rst(reset), .clk(clk), .row_en(row[0]), .col_en(col[1]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(display_state[3:2]) );
-    x X03 ( .rst(reset), .clk(clk), .row_en(row[0]), .col_en(col[2]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(display_state[5:4]) );
-    x X04 ( .rst(reset), .clk(clk), .row_en(row[0]), .col_en(col[3]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(display_state[7:6]) );
+     //First row of cells
+    x X01 ( .rst(reset), .clk(clk), .row_en(row[0]), .col_en(col[0]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(RandDisplayState[1:0]) );
+    x X02 ( .rst(reset), .clk(clk), .row_en(row[0]), .col_en(col[1]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(RandDisplayState[3:2]) );
+    x X03 ( .rst(reset), .clk(clk), .row_en(row[0]), .col_en(col[2]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(RandDisplayState[5:4]) );
+    x X04 ( .rst(reset), .clk(clk), .row_en(row[0]), .col_en(col[3]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(RandDisplayState[7:6]) );
 
     //second row
     x X05 ( .rst(reset), .clk(clk), .row_en(row[1]), .col_en(col[0]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(display_state[9:8]) );
@@ -164,7 +164,8 @@ module design_top(
     Shuffle_And_Solve_State sas1 (.clk(clk), .mix_state(mix_state), .ScrambleButton(ScrambleButton),.NoBuzz(NoBuzz),.RandomPlease(RandomPlease));
 
     //Random Inplimtation
-    random rand1 (.clk(clk), .Mix_State(Mix_State), .ScrambleButton(ScrambleButton), .RandBits(display_state));
+    wire [31:0] RandDisplayState;
+    random rand1 (.clk(clk), .Mix_State(Mix_State), .ScrambleButton(ScrambleButton), .RandBits(RandDisplayState));
 
     //counter segmentDisplay (.clk(clk), .reset(reset), .error(error), .enable(), .fire(fire_debounced));
     //  assign r1 = row1;
