@@ -2,7 +2,7 @@ module check_for_win #(parameter NumberOfBits = 31)(
     input clk,
     input [NumberOfBits:0] ScreenValues,
     input stop,
-    output Buzz,
+    output Buzz
 );
 
     integer count;
