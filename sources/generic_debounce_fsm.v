@@ -12,7 +12,7 @@ module generic_debounce # ( parameter count = 17'd1000000, parameter count_wires
     input reset,
     input clk,
     input named_btn,
-    output reg named_out,
+    output reg named_out
    // output wire [count_wires-1:0] count_out,
    // output wire state_out
 );
