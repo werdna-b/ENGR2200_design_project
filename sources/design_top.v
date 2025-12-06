@@ -38,7 +38,7 @@ module design_top(
     reg x_nRow;
     reg fire;
     wire scramble_state;
-    assign scramble_state = RandomPlease;
+    assign scramble_state = 1;
     
     wire fire_bttn_posedge, reset_high;
 
@@ -65,7 +65,7 @@ module design_top(
     // manipulate the inputs to x modules based on scramble_state
     always @(*) begin
         if (scramble_state) begin
-            fire = fire_clk; // make this slower?
+            fire = 1'b1; // make this slower?
             x_nRow = random_num[2];
                 case (random_num[1:0])
                 2'b00: row_column = 4'b0001;

@@ -7,51 +7,46 @@ module LEDsm(
     output reg [6:0] segs
 );
 
-    //clock isn't really 70hz, it's a bit faster
+    
     wire clk_70hz;
-
-    //stores the current number being printed
     reg [3:0] curr_num;
 
-    //declares the clock module to generate the slower clock
     clk_70hz c1 (.clk(clk), .clk_70hz(clk_70hz));
-
-    //states! 
-    parameter print_ones = 2'b10;
-    parameter print_tens = 2'b01;
-    parameter print_hundreds = 2'b00;
+    
+    parameter s0 = 2'b10;
+    parameter s1 = 2'b01;
+    parameter s2 = 2'b00;
     parameter idle = 2'b11;
 
     reg [1:0] curr_state, next_state;
 
-    //Basic state logic
     always @(*) begin // or posedge reset) begin
         case (curr_state)
 
             idle: begin
                 if (enable)
-                    next_state <= print_ones;
+                    next_state <= s0;
                 else
                     next_state <= idle;
             end
 
-            print_ones: begin
+            s0: begin
                 if (enable)
-                    next_state <= print_tens;
+                    next_state <= s1;
                 else
                     next_state <= idle;
             end
 
-            print_tens: begin
+            s1: begin
                 if (enable)
-                    next_state <= print_hundreds;
+                    next_state <= s2;
                 else
                     next_state <= idle;
             end
 
-            print_hundreds: begin
+            s2: begin
                 if (enable)
-                    next_state <= print_ones;
+                    next_state <= s0;
                 else
                     next_state  <= idle;
             end
@@ -59,7 +54,6 @@ module LEDsm(
         endcase
     end
 
-    //assigns value currently being printed to whichever value is currently being printed
     always @(posedge clk_70hz) begin //70hz one
 
         if (reset) begin
@@ -72,27 +66,31 @@ module LEDsm(
                 anode <= 4'b1111;
                 curr_num <= 4'b0000;
             end
-            print_ones: begin
+            s0: begin
                 anode <= 4'b1110;
                 curr_num <= ones;
             end
 
-            print_tens: begin
+            s1: begin
                 anode <= 4'b1101;
                 curr_num <= tens;
             end
 
-            print_hundreds: begin
+            s2: begin
                 anode <= 4'b1011;
                 curr_num <= hundreds;
             end
 
+         //   default: begin
+           //     anode <= 4'b1111;
+             //   curr_num <= 4'b0000;
+            //end
         endcase
     end
 
 
 
-    //state update logic
+
     always @(posedge clk_70hz or posedge reset) begin // 70 hz clk
         if (reset)
             curr_state = idle;
@@ -101,7 +99,7 @@ module LEDsm(
     end
 
 
-    //mux for printing proper values
+
     always @(*) begin
         case (curr_num)
             0: segs = 7'b1000000;

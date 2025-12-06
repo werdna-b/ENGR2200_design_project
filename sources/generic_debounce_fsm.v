@@ -12,13 +12,11 @@ module generic_debounce # ( parameter count = 17'd1000000, parameter count_wires
     input reset,
     input clk,
     input named_btn,
-    output reg named_out
-   // output wire [count_wires-1:0] count_out,
-   // output wire state_out
+    output reg named_out,
+    output wire [count_wires-1:0] count_out,
+    output wire state_out
 );
-    wire [count_wires-1:0] count_out;
-    wire state_out;
-    
+
     // parameter count = 17'd100000; // half a second at 100MHz
     // parameter count_wires = 17; // = ceiling(log2(count))
     parameter equal = 1'b0, changed = 1'b1;

@@ -20,8 +20,8 @@ module check_for_win #(parameter NumberOfBits = 31)(
         if ( stop == 'b1)
             WinCondition = 0;
 
-        if ( ScreenValues == 32'b00000000000000000000000000000000 || ScreenValues == 32'b11111111111111111111111111111111
-        || ScreenValues == 32'b01010101010101010101010101010101 || ScreenValues == 32'b10101010101010101010101010101010)
+        if ( ScreenValues == 31'b00000000000000000000000000000000 || ScreenValues == 31'b11111111111111111111111111111111
+        || ScreenValues == 31'b01010101010101010101010101010101 || ScreenValues == 31'b10101010101010101010101010101010)
             WinCondition = 1;
         else
             WinCondition = 0;

@@ -5,7 +5,6 @@ module color_decoder(
     input color_shift,
     output reg [47:0] fullColor
 );
-    reg [11:0] color1, color2, color3, color4;
 
     parameter color1_a = 12'hF00; //Red 
     parameter color2_a = 12'h0F0; //Green 
@@ -32,7 +31,7 @@ module color_decoder(
         end
     end
 
-
+    reg [11:0] color1, color2, color3, color4;
 
 
     always @(*) begin
