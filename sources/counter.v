@@ -13,7 +13,7 @@ module counter(
     LEDsm smachine1 ( .clk(clk), .reset(reset), .enable(enable), .anode(anode), .segs(segs), .ones(ones), .tens(tens), .hundreds(hundreds));
 
     //Triggered by posedge fire. Thus the counter only counts when fire is pressed.
-    always @(posedge fire or posedge reset) begin
+    always @(posedge clk or posedge reset) begin
         //reset everything to 0
         if (reset) begin
             ones <= 4'b0000;
@@ -22,7 +22,7 @@ module counter(
         end
 
         //enable controls if it actually counts or not
-        else if (enable) begin
+        else if (enable & fire) begin
             if (ones == 4'b1001) begin // If counter reaches 9 (binary 1001)
                 ones <= 4'b0000; // Reset to 0
                 //BCD logic
