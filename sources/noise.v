@@ -3,7 +3,8 @@
 
 module noise(
     input clk,          // 100 MHz System Clock (Pin W5)
-    input buzzer_on,    
+    input buzzer_on,  
+    input NoBuzz,
     output audio_out,   // Audio Signal (Pin JA1)
     output amp_gain,    // Gain Control (Pin JA2)
     output amp_shdn    // Shutdown Control (Pin JA3)
@@ -20,7 +21,10 @@ module noise(
     reg speaker_state = 0;
 
     always @(posedge clk) begin
-        if (buzzer_on == 1'b1) begin
+        if (NoBuzz == 'b1);
+            speaker_state = 0;
+      
+        if else (buzzer_on == 1'b1) begin
             // Only run the counter if the switch is ON
             if (counter >= TOGGLE_LIMIT) begin
                 counter <= 0;

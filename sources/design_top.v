@@ -142,7 +142,7 @@ module design_top(
     check_for_win W1 (.clk(clk), .ScreenValues(display_state), .Buzz(win));
     
     //Plays noise if win is reached
-    noise S1 ( .clk(clk), .buzzer_on(win), .audio_out(audio_output), .amp_gain(amplifier_gain), .amp_shdn(amp_shutdown));
+    noise S1 ( .clk(clk), .buzzer_on(win), .NoBuzz(NoBuzz) .audio_out(audio_output), .amp_gain(amplifier_gain), .amp_shdn(amp_shutdown));
     
     //checks for rising edge on fire    
     generic_input ginput1 (.clk(clk), .named_input(fire_debounced), .named_output(fire_bttn_posedge));
@@ -154,6 +154,7 @@ module design_top(
     //checks for ShuffleState
       Shuffle_And_Solve_State sas1 (.clk(clk), .mix_state(mix_state), .ScrambleButton(ScrambleButton),.NoBuzz(NoBuzz),.RandomPlease(RandomPlease));
     
+    //
     
     //counter segmentDisplay (.clk(clk), .reset(reset), .error(error), .enable(), .fire(fire_debounced));
     //  assign r1 = row1;
