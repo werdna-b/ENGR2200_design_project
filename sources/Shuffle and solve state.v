@@ -10,7 +10,8 @@ module Shuffle_And_Solve_State #(parameter RandNum= 31)(
     );
     
     reg RandomPleaseYes;
-    always @(*) begin
+   
+   /* always @(*) begin
     
     if (mix_state == 'b0)
         NoBuzz = 'b1;
@@ -20,14 +21,27 @@ module Shuffle_And_Solve_State #(parameter RandNum= 31)(
         NoBuzz = 'b1;
     end
     
-    else 
+    else begin
         RandomPlease = 'b0;
         NoBuzz = 'b0;
-    
     end
+    end
+    */
     
-    
-    
+    always @(*) begin
+        // Default values to prevent latches
+        NoBuzz = 1'b0;
+        RandomPlease = 1'b0;
+
+        if (mix_state == 1'b0) begin
+            NoBuzz = 1'b1; // Always no buzz in this state
+            
+            if (ScrambleButton == 1'b1) begin
+                RandomPlease = 1'b1;
+            end
+        end 
+        // If mix_state is 1, defaults (0 and 0) apply
+    end
 
 
 

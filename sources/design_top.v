@@ -156,7 +156,7 @@ module design_top(
     generic_input ginput1 (.clk(clk), .named_input(fire_debounced), .named_output(fire_bttn_posedge));
     generic_input ginput2 (.clk(clk), .named_input(reset), .named_output(reset_high));
 
-
+    //testing this 
     counter counter1 (.clk(clk), .enable(count_enable), .fire(fire_bttn_posedge), .reset(reset_high), .anode(anode), .segs(segs));
 
     //checks for ShuffleState

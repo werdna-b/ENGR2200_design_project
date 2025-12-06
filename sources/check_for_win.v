@@ -1,7 +1,7 @@
 module check_for_win #(parameter NumberOfBits = 31)(
     input clk,
     input [NumberOfBits:0] ScreenValues,
-    input stop,
+    input mix_state,
     output Buzz
 );
 
@@ -17,10 +17,10 @@ module check_for_win #(parameter NumberOfBits = 31)(
 */
     always @(posedge clk) begin
 
-        if ( stop == 'b1)
+        if ( mix_state == 'b1)
             WinCondition = 0;
 
-        if ( ScreenValues == 31'b00000000000000000000000000000000 || ScreenValues == 31'b11111111111111111111111111111111
+       else if ( ScreenValues == 31'b00000000000000000000000000000000 || ScreenValues == 31'b11111111111111111111111111111111
         || ScreenValues == 31'b01010101010101010101010101010101 || ScreenValues == 31'b10101010101010101010101010101010)
             WinCondition = 1;
         else
