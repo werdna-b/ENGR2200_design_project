@@ -21,9 +21,9 @@ module noise(
     reg speaker_state = 0;
 
     always @(posedge clk) begin
-        if (NoBuzz == 'b1);
+        if (NoBuzz == 'b1) begin
             speaker_state = 0;
-      
+        end
         else if (buzzer_on == 1'b1) begin
             // Only run the counter if the switch is ON
             if (counter >= TOGGLE_LIMIT) begin
