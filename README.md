@@ -1,10 +1,10 @@
-# ENGR2200 Final Project
+# ENGR2200 Final Project - Bargen, Stillman and Young
 
-The grand finale for digial systems.
+A Video game from scratch. It's ... underwhelming. Don't blame us. This is literally made from lonely brain cells, hours of listening to tooo much spotify, energy drinks, and late evenings well past midnight.
 
 # Initialization
 
-Start a new Vivado project every time you pull, then import the files into Vivado
+Start a new Vivado project, Add sources > include folder > make sure "copy files into project directory" is unchecked > OK.
 
 # Overview
 
