@@ -7,64 +7,46 @@ module LEDsm(
     output reg [6:0] segs
 );
 
+    
     wire clk_70hz;
-
     reg [3:0] curr_num;
 
-    localparam COUNT_MAX = 357142; // Using 357142 results in approx 70.000055 Hz
-
-    // The counter needs enough bits to store COUNT_MAX. 
-    // 20 bits is enough (2^20 > 357142).
-    reg [19:0] counter = 0;
-
-    always @(posedge clk or posedge reset) begin
-        if (reset) begin
-            counter <= 0;
-            clk_70hz <= 1'b0;
-        end else begin
-            if (counter == COUNT_MAX) begin
-                counter <= 0;
-                clk_70hz <= ~clk_70hz; // Toggle the output clock
-            end else begin
-                counter <= counter + 1;
-            end
-        end
-    end
-
-    parameter s0 = 2'b01;
+    clk_70hz c1 (.clk(clk), .clk_70hz(clk_70hz));
+    
+    parameter s0 = 2'b10;
     parameter s1 = 2'b01;
     parameter s2 = 2'b00;
     parameter idle = 2'b11;
 
-    wire [1:0] curr_state, next_state;
+    reg [1:0] curr_state, next_state;
 
-    always @(posedge clk_70hz or posedge reset) begin
+    always @(*) begin // or posedge reset) begin
         case (curr_state)
 
             idle: begin
                 if (enable)
-                    next_state <= ones;
+                    next_state <= s0;
                 else
                     next_state <= idle;
             end
 
             s0: begin
                 if (enable)
-                    next_state <= tens;
+                    next_state <= s1;
                 else
                     next_state <= idle;
             end
 
             s1: begin
                 if (enable)
-                    next_state <= hundreds;
+                    next_state <= s2;
                 else
                     next_state <= idle;
             end
 
-            s3: begin
+            s2: begin
                 if (enable)
-                    next_state <= ones;
+                    next_state <= s0;
                 else
                     next_state  <= idle;
             end
@@ -72,7 +54,7 @@ module LEDsm(
         endcase
     end
 
-    always @(posedge clk_70hz, posedge reset) begin
+    always @(posedge clk_70hz) begin //70hz one
 
         if (reset) begin
             anode <= 4'b1111;
@@ -99,17 +81,17 @@ module LEDsm(
                 curr_num <= hundreds;
             end
 
-            default: begin
-                anode <= 4'b1111;
-                curr_num <= 4'b0000;
-            end
+         //   default: begin
+           //     anode <= 4'b1111;
+             //   curr_num <= 4'b0000;
+            //end
         endcase
     end
 
 
 
 
-    always @(*) begin
+    always @(posedge clk_70hz or posedge reset) begin // 70 hz clk
         if (reset)
             curr_state = idle;
         else

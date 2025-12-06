@@ -9,7 +9,7 @@ module generic_input (
 );
     reg last_input;
 
-    always @(posedge clk) begin
+    always @(negedge clk) begin
         last_input <= named_input;
     end
 
