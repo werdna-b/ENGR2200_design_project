@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 module design_top(
-    input clk, reset, fireBtn, mix_state, palatte_switcher, //Buttons need to be debounced --reset is btnC, fire is btnU
+    input clk, reset, fireBtn, mix_state, palatte_switcher, count_enable, //Buttons need to be debounced --reset is btnC, fire is btnU
     input [3:0] row_column_raw_nodebounce, //Need this to be debounced --Switches 1-4
     input nRow, //low if row is selected //Needs to be debounced to nRow_debounced --Switch 6
     output [11:0] rgb,
@@ -144,7 +144,7 @@ module design_top(
     
     //checks for rising edge on fire    
     generic_input ginput1 (.clk(clk), .named_input(fire_debounced), .named_output(fire_bttn_posedge));
-    generic_input ginput1 (.clk(clk), .named_input(reset), .named_output(reset_high));
+    generic_input ginput2 (.clk(clk), .named_input(reset), .named_output(reset_high));
     
     
     counter counter1 (.clk(clk), .enable(count_enable), .fire(fire_bttn_posedge), .reset(reset_high), .anode(anode), .segs(segs));
