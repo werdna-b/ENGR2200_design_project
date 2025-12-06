@@ -50,9 +50,9 @@ module design_top(
     //Error checking to make sure only one flip is switched
     row_col_input R1 ( .sw(row_column_raw_nodebounce),  .error(error), .out(user_row_column), .clk(clk));
 
-    /* random 3-bit input
-    wire [2:0] random_num;
-    random RAND0 ( .clk(clk), .rst(reset), .out(random_num) );
+//    random 3-bit input
+  //  wire [2:0] random_num;
+    //random RAND0 ( .clk(clk), .rst(reset), .out(random_num) );
 
     // clock divider
     reg [3:0] count;
@@ -64,13 +64,13 @@ module design_top(
         else fire_clk <= 1'b0;
     end
 
-
+/*
     // manipulate the inputs to x modules based on scramble_state
     always @(*) begin
         if (scramble_state) begin
             fire = 1'b1; // make this slower?
-            x_nRow = random_num[2];
-            case (random_num[1:0])
+          //  x_nRow = random_num[2];
+            //case (random_num[1:0])
                 2'b00: row_column = 4'b0001;
                 2'b01: row_column = 4'b0010;
                 2'b10: row_column = 4'b0100;
@@ -83,7 +83,7 @@ module design_top(
             row_column = user_row_column;
         end
     end
-
+*/
     //Row or column select
     always @(*) begin
         if (error) begin
@@ -102,7 +102,7 @@ module design_top(
         end
     end
 
-    */
+
 
 
 
