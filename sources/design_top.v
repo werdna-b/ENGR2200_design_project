@@ -49,7 +49,7 @@ module design_top(
 
     // random 3-bit input
     wire [2:0] random_num;
-    random U0 ( .clk(clk), .rst(reset), .out(random_num) );
+    random RAND0 ( .clk(clk), .rst(reset), .out(random_num) );
 
     // clock divider
     reg [3:0] count;
