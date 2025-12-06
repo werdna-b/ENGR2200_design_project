@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
 
-module Audio_Gen(
+module noise(
     input clk,          // 100 MHz System Clock (Pin W5)
     input buzzer_on,    
     output audio_out,   // Audio Signal (Pin JA1)

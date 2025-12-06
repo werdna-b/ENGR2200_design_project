@@ -105,7 +105,7 @@ module design_top(
     noise S1 ( .clk(clk), .buzzer_on(win), .audio_out(audio_output), .amp_gain(amplifier_gain), .amp_shdn(amp_shutdown));
     
     
-    counter segmentDisplay (.clk(clk), .reset(reset), .error(error), .enable(), .fire(fire_debounced));
+    //counter segmentDisplay (.clk(clk), .reset(reset), .error(error), .enable(), .fire(fire_debounced));
     //  assign r1 = row1;
     //  assign r2 = row2;
     //  assign r3 = row3;
