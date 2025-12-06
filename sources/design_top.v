@@ -49,6 +49,16 @@ module design_top(
     wire [2:0] random_num;
     random U0 ( .clk(clk), .rst(reset), .out(random_num) );
 
+    // clock divider
+    reg [3:0] count;
+    reg fire_clk;
+    always @(posedge clk) begin
+        if (reset) count <= 4'b0;
+        count <= count + 1;
+        if (count == 4'b0) fire_clk <= 1'b1;
+        else fire_clk <= 1'b0;
+    end
+
 
     // manipulate the inputs to x modules based on scramble_state
     always @(*) begin
