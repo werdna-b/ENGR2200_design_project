@@ -22,7 +22,8 @@ module counter(
             hundreds <= 4'b0000;
         end
 
-        else if (enable & !error) begin
+        else if ( !error) begin
+           if (enable) begin
             if (ones == 4'b1001) begin // If counter reaches 9 (binary 1001)
                 ones <= 4'b0000; // Reset to 0
 
@@ -39,7 +40,8 @@ module counter(
             else begin
                 ones <= ones + 1; // Increment counter
             end
-        end
+            end  
+               end
     end
 
 

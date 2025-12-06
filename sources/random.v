@@ -44,7 +44,7 @@ ThreeBitCounter c1 (.ScrambleButton(ScrammbleButton), .ThreeBitIncrement(ThreeBi
 
 always @(*) begin 
 
-    if (Mix_State == 'b1) begin
+    if (Mix_State == 1'b1) begin
         if (ThreeBitIncrement == 'b000)
             RandBits = 'b11010011100110100100000111010101;
         else if (ThreeBitIncrement == 'b001)
