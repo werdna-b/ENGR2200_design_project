@@ -14,7 +14,7 @@ module counter(
 
     LEDsm smachine1 ( .clk(clk), .reset(reset), .enable(enable), .anode(anode), .segs(segs), .ones(ones), .tens(tens), .hundreds(hundreds));
 
-    always @(posedge fire or posedge reset) begin
+    always @(posedge fire or posedge reset) begin //should be posedge fire
 
         if (reset) begin
             ones <= 4'b0000;

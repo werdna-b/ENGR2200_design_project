@@ -101,12 +101,6 @@ module design_top(
         end
     end
 
-    
-
-
-
-
-
 
     //First row of cells
     x X01 ( .rst(reset), .clk(clk), .row_en(row[0]), .col_en(col[0]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(display_state[1:0]) );
@@ -157,7 +151,7 @@ module design_top(
     generic_input ginput2 (.clk(clk), .named_input(reset), .named_output(reset_high));
 
     //testing this 
-    counter counter1 (.clk(clk), .enable(count_enable), .fire(fire_bttn_posedge), .reset(reset_high), .anode(anode), .segs(segs));
+    counter counter1 (.clk(clk), .enable(count_enable), .error(error), .fire(fire_bttn_posedge), .reset(reset_high), .anode(anode), .segs(segs));
 
     //checks for ShuffleState
     Shuffle_And_Solve_State sas1 (.clk(clk), .mix_state(mix_state), .ScrambleButton(ScrambleButton),.NoBuzz(NoBuzz),.RandomPlease(RandomPlease));
