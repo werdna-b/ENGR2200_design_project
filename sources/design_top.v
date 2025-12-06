@@ -14,11 +14,13 @@ module design_top(
 
     // TODO: wire up the switches to debounce and input (edge-detect)
 
+    reg [7:0] row_1_load, row_2_load, row_3_load, row_4_load;
+
 
     //X module wires
     wire [31:0] display_state;
     wire fire_debounced, addn_debounced, nRow_debounced;
-    
+
     wire win;
     wire ShuffleMode;
     wire NoBuzz;
@@ -38,8 +40,8 @@ module design_top(
     reg x_nRow;
     reg fire;
     wire scramble_state;
-    assign scramble_state = 1;
-    
+    assign scramble_state = 0;
+
     wire fire_bttn_posedge, reset_high;
 
 
@@ -67,11 +69,11 @@ module design_top(
         if (scramble_state) begin
             fire = 1'b1; // make this slower?
             x_nRow = random_num[2];
-                case (random_num[1:0])
+            case (random_num[1:0])
                 2'b00: row_column = 4'b0001;
                 2'b01: row_column = 4'b0010;
                 2'b10: row_column = 4'b0100;
-                2'b11: row_column = 4'b1000;            
+                2'b11: row_column = 4'b1000;
             endcase
         end
         else begin
@@ -98,6 +100,12 @@ module design_top(
             end
         end
     end
+
+    
+
+
+
+
 
 
     //First row of cells
@@ -140,22 +148,22 @@ module design_top(
 
     //Checking for win state
     check_for_win W1 (.clk(clk), .ScreenValues(display_state), .Buzz(win));
-    
+
     //Plays noise if win is reached
     noise S1 ( .clk(clk), .buzzer_on(win), .NoBuzz(NoBuzz), .audio_out(audio_output), .amp_gain(amplifier_gain), .amp_shdn(amp_shutdown));
-    
+
     //checks for rising edge on fire    
     generic_input ginput1 (.clk(clk), .named_input(fire_debounced), .named_output(fire_bttn_posedge));
     generic_input ginput2 (.clk(clk), .named_input(reset), .named_output(reset_high));
-    
-    
+
+
     counter counter1 (.clk(clk), .enable(count_enable), .fire(fire_bttn_posedge), .reset(reset_high), .anode(anode), .segs(segs));
-    
+
     //checks for ShuffleState
-      Shuffle_And_Solve_State sas1 (.clk(clk), .mix_state(mix_state), .ScrambleButton(ScrambleButton),.NoBuzz(NoBuzz),.RandomPlease(RandomPlease));
-    
+    Shuffle_And_Solve_State sas1 (.clk(clk), .mix_state(mix_state), .ScrambleButton(ScrambleButton),.NoBuzz(NoBuzz),.RandomPlease(RandomPlease));
+
     //
-    
+
     //counter segmentDisplay (.clk(clk), .reset(reset), .error(error), .enable(), .fire(fire_debounced));
     //  assign r1 = row1;
     //  assign r2 = row2;

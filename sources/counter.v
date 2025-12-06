@@ -4,10 +4,12 @@ module counter(
     input enable, clk, reset, fire, error,
     output [3:0] anode,
     output [6:0] segs
-   // output reg [3:0] ones, tens, hundreds
+    // output reg [3:0] ones, tens, hundreds
 );
 
-     reg [3:0] ones, tens, hundreds;
+    reg [3:0] ones, tens, hundreds;
+    
+
 
 
     LEDsm smachine1 ( .clk(clk), .reset(reset), .enable(enable), .anode(anode), .segs(segs), .ones(ones), .tens(tens), .hundreds(hundreds));
@@ -20,12 +22,12 @@ module counter(
             hundreds <= 4'b0000;
         end
 
-        else if (enable) begin
+        else if (enable & !error) begin
             if (ones == 4'b1001) begin // If counter reaches 9 (binary 1001)
                 ones <= 4'b0000; // Reset to 0
 
                 if (tens == 4'b1001) begin
-                  hundreds <= hundreds + 1;
+                    hundreds <= hundreds + 1;
                     tens <= 4'b0000;
                 end
 

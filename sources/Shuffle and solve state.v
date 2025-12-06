@@ -22,7 +22,7 @@ module Shuffle_And_Solve_State #(parameter RandNum= 31)(
     
     else 
         RandomPlease = 'b0;
-        Nobuzz = 'b0;
+        NoBuzz = 'b0;
     
     end
     
