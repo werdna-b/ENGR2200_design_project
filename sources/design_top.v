@@ -19,8 +19,6 @@ module design_top(
     
     wire win;
 
-
-
     // assign row_column_raw = row_column_raw_nodebounce;
 
 
@@ -31,22 +29,50 @@ module design_top(
 
     //For row/column select
     reg [3:0] row, col;
-    wire [3:0] row_column;
+    wire [3:0] user_row_column;
+    reg [3:0] row_column;
+    reg x_nRow;
+    reg fire;
+    wire scramble_state;
+    assign scramble_state = 1;
 
 
-    assign nRow_debounced = nRow;
-    generic_debounce( .clk(clk), .reset(reset), .named_btn(fireBtn), .named_out(fire_debounced) );
+    generic_debounce DEBOUNCE0 ( .clk(clk), .reset(reset), .named_btn(fireBtn), .named_out(fire_debounced) );
     //Error checking to make sure only one flip is switched
-    row_col_input R1 ( .sw(row_column_raw_nodebounce),  .error(error), .out(row_column), .clk(clk));
+    row_col_input R1 ( .sw(row_column_raw_nodebounce),  .error(error), .out(user_row_column), .clk(clk));
+
+    // random 3-bit input
+    wire [2:0] random_num;
+    random U0 ( .clk(clk), .rst(reset), .out(random_num) );
+
+
+    // manipulate the inputs to x modules based on scramble_state
+    always @(*) begin
+        if (scramble_state) begin
+            fire = 1'b1; // make this slower?
+            x_nRow = random_num[2];
+                case (random_num[1:0])
+                2'b00: row_column = 4'b0001;
+                2'b01: row_column = 4'b0010;
+                2'b10: row_column = 4'b0100;
+                2'b11: row_column = 4'b1000;            
+            endcase
+        end
+        else begin
+            x_nRow = nRow;
+            fire = fire_debounced;
+            row_column = user_row_column;
+        end
+    end
 
     //Row or column select
     always @(*) begin
         if (error) begin
-            col = 4'b000;
-            row = 4'b000;
+            col = 4'b0000;
+            row = 4'b0000;
         end
         else begin
-            if (!nRow_debounced) begin
+            if (!x_nRow) begin
                 row = row_column;
                 col = 4'b0000;
             end
@@ -58,31 +84,29 @@ module design_top(
     end
 
 
-
     //First row of cells
-    x X1 ( .rst(reset), .clk(clk), .row_en(row[0]), .col_en(col[0]), .add_n(addn_debounced), .fire(fire_debounced), .load(2'b00), .to_vdc(display_state[1:0]) );
-    x X2 ( .rst(reset), .clk(clk), .row_en(row[0]), .col_en(col[1]), .add_n(addn_debounced), .fire(fire_debounced), .load(2'b00), .to_vdc(display_state[3:2]) );
-    x X3 ( .rst(reset), .clk(clk), .row_en(row[0]), .col_en(col[2]), .add_n(addn_debounced), .fire(fire_debounced), .load(2'b00), .to_vdc(display_state[5:4]) );
-    x X4 ( .rst(reset), .clk(clk), .row_en(row[0]), .col_en(col[3]), .add_n(addn_debounced), .fire(fire_debounced), .load(2'b00), .to_vdc(display_state[7:6]) );
+    x X01 ( .rst(reset), .clk(clk), .row_en(row[0]), .col_en(col[0]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(display_state[1:0]) );
+    x X02 ( .rst(reset), .clk(clk), .row_en(row[0]), .col_en(col[1]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(display_state[3:2]) );
+    x X03 ( .rst(reset), .clk(clk), .row_en(row[0]), .col_en(col[2]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(display_state[5:4]) );
+    x X04 ( .rst(reset), .clk(clk), .row_en(row[0]), .col_en(col[3]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(display_state[7:6]) );
 
     //second row
-    x X5 ( .rst(reset), .clk(clk), .row_en(row[1]), .col_en(col[0]), .add_n(addn_debounced), .fire(fire_debounced), .load(2'b00), .to_vdc(display_state[9:8]) );
-    x X6 ( .rst(reset), .clk(clk), .row_en(row[1]), .col_en(col[1]), .add_n(addn_debounced), .fire(fire_debounced), .load(2'b00), .to_vdc(display_state[11:10]) );
-    x X7 ( .rst(reset), .clk(clk), .row_en(row[1]), .col_en(col[2]), .add_n(addn_debounced), .fire(fire_debounced), .load(2'b00), .to_vdc(display_state[13:12]) );
-    x X8 ( .rst(reset), .clk(clk), .row_en(row[1]), .col_en(col[3]), .add_n(addn_debounced), .fire(fire_debounced), .load(2'b00), .to_vdc(display_state[15:14]) );
+    x X05 ( .rst(reset), .clk(clk), .row_en(row[1]), .col_en(col[0]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(display_state[9:8]) );
+    x X06 ( .rst(reset), .clk(clk), .row_en(row[1]), .col_en(col[1]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(display_state[11:10]) );
+    x X07 ( .rst(reset), .clk(clk), .row_en(row[1]), .col_en(col[2]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(display_state[13:12]) );
+    x X08 ( .rst(reset), .clk(clk), .row_en(row[1]), .col_en(col[3]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(display_state[15:14]) );
 
     //third row
-    x X9 ( .rst(reset), .clk(clk), .row_en(row[2]), .col_en(col[0]), .add_n(addn_debounced), .fire(fire_debounced), .load(2'b00), .to_vdc(display_state[17:16]) );
-    x X10 ( .rst(reset), .clk(clk), .row_en(row[2]), .col_en(col[1]), .add_n(addn_debounced), .fire(fire_debounced), .load(2'b00), .to_vdc(display_state[19:18]) );
-    x X11 ( .rst(reset), .clk(clk), .row_en(row[2]), .col_en(col[2]), .add_n(addn_debounced), .fire(fire_debounced), .load(2'b00), .to_vdc(display_state[21:20]) );
-    x X12 ( .rst(reset), .clk(clk), .row_en(row[2]), .col_en(col[3]), .add_n(addn_debounced), .fire(fire_debounced), .load(2'b00), .to_vdc(display_state[23:22]) );
+    x X09 ( .rst(reset), .clk(clk), .row_en(row[2]), .col_en(col[0]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(display_state[17:16]) );
+    x X10 ( .rst(reset), .clk(clk), .row_en(row[2]), .col_en(col[1]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(display_state[19:18]) );
+    x X11 ( .rst(reset), .clk(clk), .row_en(row[2]), .col_en(col[2]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(display_state[21:20]) );
+    x X12 ( .rst(reset), .clk(clk), .row_en(row[2]), .col_en(col[3]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(display_state[23:22]) );
 
     //fourth row
-    x X13 ( .rst(reset), .clk(clk), .row_en(row[3]), .col_en(col[0]), .add_n(addn_debounced), .fire(fire_debounced), .load(2'b00), .to_vdc(display_state[25:24]) );
-    x X14 ( .rst(reset), .clk(clk), .row_en(row[3]), .col_en(col[1]), .add_n(addn_debounced), .fire(fire_debounced), .load(2'b00), .to_vdc(display_state[27:26]) );
-    x X15 ( .rst(reset), .clk(clk), .row_en(row[3]), .col_en(col[2]), .add_n(addn_debounced), .fire(fire_debounced), .load(2'b00), .to_vdc(display_state[29:28]) );
-    x X16 ( .rst(reset), .clk(clk), .row_en(row[3]), .col_en(col[3]), .add_n(addn_debounced), .fire(fire_debounced), .load(2'b00), .to_vdc(display_state[31:30]) );
-
+    x X13 ( .rst(reset), .clk(clk), .row_en(row[3]), .col_en(col[0]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(display_state[25:24]) );
+    x X14 ( .rst(reset), .clk(clk), .row_en(row[3]), .col_en(col[1]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(display_state[27:26]) );
+    x X15 ( .rst(reset), .clk(clk), .row_en(row[3]), .col_en(col[2]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(display_state[29:28]) );
+    x X16 ( .rst(reset), .clk(clk), .row_en(row[3]), .col_en(col[3]), .add_n(addn_debounced), .fire(fire), .load(2'b00), .to_vdc(display_state[31:30]) );
 
 
 
