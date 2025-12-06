@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
 
-module Lets_go #(parameter RandNum= 31)(
+module Shuffle_And_Solve_State #(parameter RandNum= 31)(
     input clk,     
     input ScreenNum,
     input mix_state,
