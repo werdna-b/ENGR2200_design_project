@@ -3,7 +3,6 @@
 
 module Shuffle_And_Solve_State #(parameter RandNum= 31)(
     input clk,     
-    input ScreenNum,
     input mix_state,
     input ScrambleButton,
     output reg NoBuzz,

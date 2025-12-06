@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 module design_top(
-    input clk, reset, fireBtn, mix_state, palatte_switcher, count_enable, //Buttons need to be debounced --reset is btnC, fire is btnU
+    input clk, reset, fireBtn, mix_state, palatte_switcher, count_enable, ScrambleButton, //Buttons need to be debounced --reset is btnC, fire is btnU
     input [3:0] row_column_raw_nodebounce, //Need this to be debounced --Switches 1-4
     input nRow, //low if row is selected //Needs to be debounced to nRow_debounced --Switch 6
     output [11:0] rgb,
@@ -20,7 +20,9 @@ module design_top(
     wire fire_debounced, addn_debounced, nRow_debounced;
     
     wire win;
-
+    wire ShuffleMode;
+    wire NoBuzz;
+    wire RandomPlease;
     // assign row_column_raw = row_column_raw_nodebounce;
 
 
@@ -148,6 +150,10 @@ module design_top(
     
     
     counter counter1 (.clk(clk), .enable(count_enable), .fire(fire_bttn_posedge), .reset(reset_high), .anode(anode), .segs(segs));
+    
+    //checks for ShuffleState
+      Shuffle_And_Solve_State sas1 (.clk(clk), .mix_state(mix_state), .ScrambleButton(ScrambleButton),.NoBuzz(NoBuzz),.RandomPlease(RandomPlease));
+    
     
     //counter segmentDisplay (.clk(clk), .reset(reset), .error(error), .enable(), .fire(fire_debounced));
     //  assign r1 = row1;
