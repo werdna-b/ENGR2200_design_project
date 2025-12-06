@@ -4,7 +4,9 @@ module design_top(
     input [3:0] row_column_raw_nodebounce, //Need this to be debounced --Switches 1-4
     input nRow, //low if row is selected //Needs to be debounced to nRow_debounced --Switch 6
     output [11:0] rgb,
-    output vsync, hsync, error, amp_shutdown, audio_output, amplifier_gain
+    output vsync, hsync, error, amp_shutdown, audio_output, amplifier_gain,
+    output [3:0] anode,
+    output [6:0] segs
     // output [47:0] r1, r2, r3, r4,
     // output [31:0] d_out,
     // output reg [3:0] row_out, col_out
@@ -35,6 +37,8 @@ module design_top(
     reg fire;
     wire scramble_state;
     assign scramble_state = 1;
+    
+    wire fire_bttn_posedge, reset_high;
 
 
     generic_debounce DEBOUNCE0 ( .clk(clk), .reset(reset), .named_btn(fireBtn), .named_out(fire_debounced) );
@@ -128,6 +132,12 @@ module design_top(
     //Plays noise if win is reached
     noise S1 ( .clk(clk), .buzzer_on(win), .audio_out(audio_output), .amp_gain(amplifier_gain), .amp_shdn(amp_shutdown));
     
+    //checks for rising edge on fire    
+    generic_input ginput1 (.clk(clk), .named_input(fire_debounced), .named_output(fire_bttn_posedge));
+    generic_input ginput1 (.clk(clk), .named_input(reset), .named_output(reset_high));
+    
+    
+    counter counter1 (.clk(clk), .enable(count_enable), .fire(fire_bttn_posedge), .reset(reset_high), .anode(anode), .segs(segs));
     
     //counter segmentDisplay (.clk(clk), .reset(reset), .error(error), .enable(), .fire(fire_debounced));
     //  assign r1 = row1;
