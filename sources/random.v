@@ -32,28 +32,34 @@ module random (
 
 module random (
     input clk,
-    input ShuffleState,
-    input [2:0]ThreeBitIncrement,
+    input Mix_State,
     input ScrambleButton,
-    output wire [31:0] RandBits
+    output reg [31:0] RandBits = 'b11111111111111111111111111111111
 );
+
+wire [2:0] ThreeBitIncrement;
+
+
+ThreeBitCounter c1 (.ScrambleButton(ScrammbleButton), .ThreeBitIncrement(ThreeBitIncrement));
 
 always @(*) begin 
 
-    if (ShuffleState == 'b1) begin
+    if (Mix_State == 'b1) begin
         if (ThreeBitIncrement == 'b000)
             RandBits = 'b11010011100110100100000111010101;
         else if (ThreeBitIncrement == 'b001)
             RandBits = 'b00100100111001010010101001001110;
         else if (ThreeBitIncrement == 'b011)
             RandBits = 'b11100011101010100111010110001101;
-        else if (
-        
-    
-    
-  
-    
-        
+        else if (ThreeBitIncrement == 'b101)
+            RandBits = 'b01010010010100100101001001010010;
+        else if (ThreeBitIncrement == 'b100)
+            RandBits = 'b10101001010101111111000001101010;
+        else if (ThreeBitIncrement == 'b010)
+            RandBits = 'b10011111101010100111100101010111;
+        else if (ThreeBitIncrement == 'b111)
+            RandBits = 'b11111000000111110000011111000010;
+     end             
 end
 
 

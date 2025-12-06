@@ -25,6 +25,7 @@ module design_top(
     wire ShuffleMode;
     wire NoBuzz;
     wire RandomPlease;
+    wire RandomOutput;
     // assign row_column_raw = row_column_raw_nodebounce;
 
 
@@ -49,7 +50,7 @@ module design_top(
     //Error checking to make sure only one flip is switched
     row_col_input R1 ( .sw(row_column_raw_nodebounce),  .error(error), .out(user_row_column), .clk(clk));
 
-    // random 3-bit input
+    /* random 3-bit input
     wire [2:0] random_num;
     random RAND0 ( .clk(clk), .rst(reset), .out(random_num) );
 
@@ -101,7 +102,7 @@ module design_top(
         end
     end
 
-    
+    */
 
 
 
@@ -162,7 +163,8 @@ module design_top(
     //checks for ShuffleState
     Shuffle_And_Solve_State sas1 (.clk(clk), .mix_state(mix_state), .ScrambleButton(ScrambleButton),.NoBuzz(NoBuzz),.RandomPlease(RandomPlease));
 
-    //
+    //Random Inplimtation
+    random rand1 (.clk(clk), .Mix_State(Mix_State), .ScrambleButton(ScrambleButton), .RandBits(display_state));
 
     //counter segmentDisplay (.clk(clk), .reset(reset), .error(error), .enable(), .fire(fire_debounced));
     //  assign r1 = row1;

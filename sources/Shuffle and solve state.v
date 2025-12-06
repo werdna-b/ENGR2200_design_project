@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
 
-module Shuffle_And_Solve_State #(parameter RandNum= 31)(
+module Shuffle_And_Solve_State(
     input clk,     
     input mix_state,
     input ScrambleButton,
